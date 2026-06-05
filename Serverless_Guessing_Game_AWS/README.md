@@ -32,7 +32,8 @@ O ponto de partida do backend consistiu em instanciar um ambiente de computaçã
 2. Definiu-se o nome do recurso como `LambdaGame-FernandaOliveira`.
 3. O ambiente de execução selecionado foi o **Python 3.13**, mantendo a arquitetura padrão baseada em `x86_64`.
 
-![Instanciação inicial da função Lambda](./assets/Captura%20de%20tela%202026-05-20%20211034.png)
+<img width="1906" height="948" alt="Captura de tela 2026-05-20 211034" src="https://github.com/user-attachments/assets/cdba0f8e-6863-471a-b1f4-991013257339" />
+
 *Legenda: Instanciação inicial da função Lambda com o ambiente de runtime Python 3.13 definido.*
 
 ### Etapa 2: Implementação da Lógica do Jogo em Python
@@ -42,7 +43,8 @@ Substituiu-se o esqueleto de código padrão da AWS pelo script real da aplicaç
 * Validação condicional encadeada (`if`, `elif`, `else`) para checar se o número inserido é maior, menor ou idêntico ao número secreto.
 * Construção do dicionário de resposta com o cabeçalho JSON (`Content-Type`) e o `statusCode: 200` exigidos pelo protocolo HTTP.
 
-![Editor de código integrado do Lambda](./assets/Captura%20de%20tela%202026-05-20%20211343.png)
+<img width="1904" height="940" alt="Captura de tela 2026-05-20 211343" src="https://github.com/user-attachments/assets/59272167-ec75-41aa-b38d-2cf63d366fff" />
+
 *Legenda: Editor de código integrado do Lambda exibindo o script Python implementado e pronto para o deploy.*
 
 ### Etapa 3: Criação e Configuração do Amazon API Gateway
@@ -51,18 +53,24 @@ Para que o navegador do usuário conseguisse se comunicar com o nosso código Py
 2. Mapeamos uma rota específica utilizando o método HTTP **`GET`** no recurso `/jogo`.
 3. Definimos a integração dessa rota apontando diretamente para o destino da nossa função Lambda (`LambdaGame-FernandaOliveira`).
 
-![Criação da API HTTP](./assets/Captura%20de%20tela%202026-05-20%20211516.png)
+<img width="1906" height="935" alt="Captura de tela 2026-05-20 211627" src="https://github.com/user-attachments/assets/8c1667c2-e25b-4d6a-9389-caea96dedfbc" />
+
 *Legenda: Criação da API HTTP no console do API Gateway especificando a integração nativa com o AWS Lambda.*
 
-![Definição da rota GET /jogo](./assets/Captura%20de%20tela%202026-05-20%20211550.png)
+<img width="1909" height="941" alt="Captura de tela 2026-05-20 211717" src="https://github.com/user-attachments/assets/2a9a31da-9c9e-4920-88d0-26ee1436d164" />
+
 *Legenda: Definição da rota GET /jogo vinculada ao microsserviço de backend.*
 
 4. Configuramos as etapas de implantação (*Stages*). O ambiente foi publicado no estágio padrão **`prod`** com a propriedade de *Auto-deploy* (implantação automática de alterações) ativada.
 
-![Configuração do estágio](./assets/Captura%20de%20tela%202026-05-20%20211612.png)
+<img width="1904" height="929" alt="Captura de tela 2026-05-20 211806" src="https://github.com/user-attachments/assets/bb7c3916-fe3e-4fa5-a2ce-9e0ff1da9385" />
+
+
+
 *Legenda: Configuração do estágio de implantação 'prod' da API.*
 
-!https://daemons.com.br/ritual-invocacao-evocacao/(./assets/Captura%20de%20tela%202026-05-20%20211913.png)
+<img width="1903" height="941" alt="Captura de tela 2026-05-20 211913" src="https://github.com/user-attachments/assets/a92f414a-af03-442c-995b-434b1a7e87e4" />
+
 *Legenda: Visualização do estágio publicado e captura da URL de Invocação gerada pela AWS.*
 
 ### Etapa 4: Mitigação de Restrições de CORS
@@ -71,37 +79,46 @@ Como o nosso frontend e o nosso backend rodam em domínios diferentes da AWS, os
 * **Access-Control-Allow-Headers:** `content-type`
 * **Access-Control-Allow-Methods:** `GET`
 
-![Painel de gerenciamento de CORS](./assets/Captura%20de%20tela%202026-05-20%20212457.png)
+<img width="1905" height="938" alt="Captura de tela 2026-05-20 212056" src="https://github.com/user-attachments/assets/fff5c749-3def-4eaf-b1aa-037184440724" />
+
 *Legenda: Painel de gerenciamento de CORS no API Gateway garantindo a liberação de requisições de origens cruzadas.*
 
 ### Etapa 5: Provisionamento e Configuração do Amazon S3
 Com a infraestrutura de backend operacional, configuramos o armazenamento e a distribuição estável do frontend.
 1. Criamos um bucket S3 com o nome exclusivo `s3-website-fernandaoliveira`.
 
-![Menu de criação de buckets](./assets/Captura%20de%20tela%202026-05-20%20213233.png)
+<img width="1907" height="945" alt="Captura de tela 2026-05-20 213047" src="https://github.com/user-attachments/assets/dd4f3880-f925-4218-b10d-bce70027f81e" />
+
 *Legenda: Menu de criação de buckets do Amazon S3 na região us-east-1.*
 
 2. Atualizamos o script JavaScript local contido no arquivo `index.html`, inserindo a URL de Invocação do API Gateway obtida no passo 3 dentro da função `fetch()`. Em seguida, efetuamos o upload do arquivo para o bucket.
 
-![Console de upload do Amazon S3](./assets/Captura%20de%20tela%202026-05-20%20213432.png)
+<img width="1899" height="943" alt="Captura de tela 2026-05-20 213432" src="https://github.com/user-attachments/assets/37db3347-ff78-40ff-aa88-919d810bc6f0" />
+
 *Legenda: Console de upload do Amazon S3 confirming o envio do arquivo index.html.*
 
 3. Navegamos até a aba de propriedades do bucket e ativamos o recurso **Hospedagem de site estático (Static website hosting)**, definindo o arquivo `index.html` como o documento de índice principal.
 
-![Ativação do Static website hosting](./assets/Captura%20de%20tela%202026-05-20%20213753.png)
+<img width="1911" height="944" alt="Captura de tela 2026-05-20 213631" src="https://github.com/user-attachments/assets/1a1ff4db-1e3e-4d04-8380-2cb1c15b3a44" />
+
 *Legenda: Ativação e configuração das propriedades de hospedagem web no S3.*
 
-!https://www.instagram.com/p/DWuOuzzkYLr/?img_index=3&hl=ro(./assets/Captura%20de%20tela%202026-05-20%20213813.png)
+<img width="1910" height="946" alt="Captura de tela 2026-05-20 213653" src="https://github.com/user-attachments/assets/7306d8a6-ef74-4bf1-b18a-1ee3a90c1a0d" />
+
 *Legenda: URL pública gerada pelo S3 para acesso direto à aplicação web.*
 
 4. Por padrão, a AWS bloqueia acessos públicos ao S3. Para expor o jogo na internet, desativamos a caixa global de **"Bloquear todo o acesso público" (Block all public access)**.
 
-![Alteração das configurações de visibilidade](./assets/Captura%20de%20tela%202026-05-20%20214539.png)
+<img width="1902" height="943" alt="Captura de tela 2026-05-20 213726" src="https://github.com/user-attachments/assets/a38953c6-f0c3-4feb-8691-c4cf369018ac" />
+
+<img width="1912" height="503" alt="Captura de tela 2026-05-20 213801" src="https://github.com/user-attachments/assets/6c59b4d3-fa1e-498f-a951-136f7d42e542" />
+
 *Legenda: Alteração das configurações de visibilidade do bucket para permissão pública de leitura.*
 
 5. Para finalizar a segurança da camada de apresentação, aplicamos uma **S3 Bucket Policy** em formato JSON, concedendo explicitamente o efeito `Allow` para a ação `s3:GetObject` em todos os recursos internos daquele bucket.
 
-![Aplicação da Bucket Policy](./assets/Captura%20de%20tela%202026-05-20%20214959.png)
+<img width="1911" height="939" alt="Captura de tela 2026-05-20 215402" src="https://github.com/user-attachments/assets/64650ad0-27d4-470c-9105-4688721f81ea" />
+
 *Legenda: Aplicação e salvamento da Bucket Policy estruturada em formato JSON.*
 
 ---
@@ -112,7 +129,8 @@ Acessando a URL pública gerada pelo endpoint do Amazon S3, validamos com sucess
 
 * **Cenário de Teste 1:** Quando o usuário submete um palpite menor do que o número randômico armazenado em memória na execução do Lambda, o backend computa o valor e envia a dica instantaneamente de volta para a tela:
 
-![Execução do jogo - Palpite menor](./assets/Captura%20de%20tela%202026-05-20%20215348.jpg)
+<img width="1912" height="983" alt="Captura de tela 2026-05-20 215348" src="https://github.com/user-attachments/assets/4a641d9b-9f06-4051-a281-ef2205754e2e" />
+
 *Legenda: Execução do jogo no navegador exibindo a tratativa para palpites inferiores.*
 
 * **Cenário de Teste 2:** Ao persistir e inserir o número exato, a função Lambda valida a igualdade e retorna a flag de sucesso, atualizando a interface gráfica com a tela azul de vitória:
