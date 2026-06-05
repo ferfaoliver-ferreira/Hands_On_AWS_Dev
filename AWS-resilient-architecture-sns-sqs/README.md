@@ -2,6 +2,7 @@
 
 Este laboratório prático foca em mensageria assíncrona, desacoplamento de sistemas (Microsserviços) e tratamento de falhas utilizando **Amazon SNS** (Simple Notification Service) e **Amazon SQS** (Simple Queue Service) com suporte a **DLQ** (Dead-Letter Queue).
 
+![Atingindo o Limite Máximo de Erros](./images/Captura%20de%20tela%202026-05-13%20222515.png)
 ---
 
 ## 🏗️ Passo a Passo Técnico: Implementação Prática
@@ -125,5 +126,4 @@ Para aplicar o princípio do privilégio mínimo, editamos a política da fila p
 5. Repita o processo até que a contagem atinja o limite máximo de 3 tentativas sem sucesso. Na tentativa seguinte, a mensagem expirará da fila principal.
 6. Acesse a fila `minha-dlq-lab` e realize a sondagem: a mensagem estará armazenada nela de forma isolada e segura.
 
-![Atingindo o Limite Máximo de Erros](./images/Captura%20de%20tela%202026-05-13%20222515.png)
-*Confirmação de que a mensagem estourou o limite configurado e foi movida para a DLQ.*
+
