@@ -37,11 +37,15 @@ Os projetos desenvolvidos neste repositório cobrem os principais domínios exig
 
 Cada subpasta dentro deste repositório representa um projeto completo, contendo seu próprio código-fonte, arquitetura documentada e evidências visuais de execução na console da AWS.
 
+## 📂 Organização dos Laboratórios
+
+Cada subpasta dentro deste repositório representa um projeto prático completo, contendo sua própria documentação técnica e evidências visuais de execução.
+
 | Projeto | Descrição Técnica | Serviços Utilizados |
 | :--- | :--- | :--- |
 | [🎮 Serverless Guessing Game](./Serverless_Guessing_Game_AWS) | Jogo de adivinhação com frontend estático acionando microsserviço assíncrono para processamento lógico. | AWS Lambda, API Gateway, Amazon S3, Python 3.13 |
+| [⛓️ AWS Resilient Architecture](./AWS-resilient-architecture-sns-sqs) | Implementação de arquitetura desacoplada e resiliente utilizando tópicos de publicação/assinatura e filas de mensagens para garantir entrega e tolerância a falhas. | Amazon SNS, Amazon SQS |
 | *(Próximos Labs)* | *Novos laboratórios práticos serão adicionados ao longo da jornada de estudos.* | *Em constante atualização...* |
-
 ---
 
 ## 🧼 Filosofia de Gerenciamento (FinOps)
