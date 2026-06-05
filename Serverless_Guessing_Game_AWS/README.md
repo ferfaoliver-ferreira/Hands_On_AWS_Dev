@@ -2,6 +2,8 @@
 
 Este diretório contém a documentação técnica e o guia de implementação de uma aplicação web inteiramente serverless construída na Amazon Web Services (AWS). O objetivo do projeto é demonstrar na prática como construir, integrar, testar e desestruturar uma arquitetura desacoplada, escalável e de alta disponibilidade, eliminando completamente a sobrecarga de gerenciamento de servidores.
 
+<img width="538" height="476" alt="Captura de tela 2026-05-20 220707" src="https://github.com/user-attachments/assets/33940d18-667b-44d4-ab21-67e0e051e985" />
+
 ---
 
 ## 🏗️ Arquitetura da Solução
@@ -148,34 +150,18 @@ Seguindo as melhores práticas recomendadas pela **Escola da Nuvem**, uma vez co
 A console da AWS impede por segurança a deleção de buckets que contenham dados. O processo seguiu o fluxo correto de purga:
 * Selecionou-se o bucket e executou-se a ação de esvaziamento, sendo exigido digitar a frase de segurança `"excluir permanentemente"`.
 
-![Confirmação de esvaziamento](./assets/Captura%20de%20tela%202026-05-20%20215707.png)
-*Legenda: Confirmação de segurança exigida para purgar de forma permanente os objetos do S3.*
-
-![Bucket esvaziado](./assets/Captura%20de%20tela%202026-05-20%20215816.png)
-*Legenda: Confirmação da console validando que o bucket foi esvaziado com sucesso.*
-
 Com o bucket completamente limpo, realizou-se a sua exclusão total inserindo o nome exato do recurso (`s3-website-fernandaoliveira`) na caixa de texto.
-
-![Exclusão do bucket S3](./assets/Captura%20de%20tela%202026-05-20%20215824.png)
-*Legenda: Janela de encerramento definitivo e remoção do bucket S3.*
 
 ### 2. Deleção da Camada de APIs (Amazon API Gateway)
 Acessou-se o menu de gerenciamento de APIs, selecionando o recurso criado no laboratório e disparando a remoção imediata do endpoint do ecossistema.
 
-![Exclusão da API HTTP](./assets/Captura%20de%20tela%202026-05-20%20215903.png)
-*Legenda: Desativação e exclusão das rotas e do barramento HTTP no API Gateway.*
 
 ### 3. Desprovimento do Computo (AWS Lambda)
 Por fim, acessamos a lista de funções do console AWS Lambda para eliminar o backend serverless.
 * Localizou-se o recurso `LambdaGame-FernandaOliveira` na tabela activa.
 
-![Filtro e seleção da função Lambda](./assets/Captura%20de%20tela%202026-05-20%20220253.png)
-*Legenda: Filtro e seleção da função Lambda ativa antes do encerramento de ciclo de vida.*
-
 * Através do botão superior "Ações", confirmou-se a remoção final do microsserviço da conta AWS.
 
-![Exclusão da função Lambda](./assets/Captura%20de%20tela%202026-05-20%20220707.png)
-*Legenda: Pop-up de encerramento definitivo e exclusão lógica da função Lambda.*
 
 ---
 🔬 *Projeto técnico prático elaborado com a infraestrutura fornecida e orientada pela Escola da Nuvem.*
