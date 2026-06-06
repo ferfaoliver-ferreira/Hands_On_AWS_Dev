@@ -1,4 +1,4 @@
-# Laboratório AWS - Explorando o Amazon EC2
+# Explorando o Amazon EC2
 
 ## Resumo
 
