@@ -1,4 +1,4 @@
-# Laboratório - Automatizando o Fim das Instâncias na AWS
+# Automatizando o Fim das Instâncias na AWS
 
 ## Objetivo
 
