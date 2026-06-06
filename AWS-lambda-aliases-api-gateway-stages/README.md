@@ -1,4 +1,4 @@
-# Laboratório - AWS Lambda com Aliases e API Gateway com Stages
+# AWS Lambda com Aliases e API Gateway com Stages
 
 ## Objetivo
 
