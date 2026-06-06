@@ -1,4 +1,4 @@
-# Laboratório - Criando um Orçamento na AWS com Budget
+# Criando um Orçamento na AWS com Budget
 
 ## Objetivo
 
