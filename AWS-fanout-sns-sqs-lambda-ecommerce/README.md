@@ -235,138 +235,139 @@ Ao final do laboratório, remover:
 ## Evidências visuais em ordem das orientações
 
 ### Fase 1 - preparação do SQS e da DLQ
-**Evidência 01.** Visão inicial do console SQS antes da criação das filas.
+Visão inicial do console SQS antes da criação das filas.
 ![Evidência 01](./images/step-01.png)
-**Evidência 02.** Criação da dead-letter queue da análise de fraude.
+Criação da dead-letter queue da análise de fraude.
 ![Evidência 02](./images/step-02.png)
-**Evidência 03.** Confirmação da DLQ criada com sucesso.
+Confirmação da DLQ criada com sucesso.
 ![Evidência 03](./images/step-03.png)
-**Evidência 04.** Configuração da fila principal de fraude com redrive policy.
+Configuração da fila principal de fraude com redrive policy.
 ![Evidência 04](./images/step-04.png)
-**Evidência 05.** Lista das filas no SQS após a criação da DLQ.
+Lista das filas no SQS após a criação da DLQ.
 ![Evidência 05](./images/step-05.png)
-**Evidência 06.** Ajustes complementares da fila principal no console.
+Ajustes complementares da fila principal no console.
 ![Evidência 06](./images/step-06.png)
-**Evidência 07.** Conferência do ambiente SQS antes de seguir para o SNS.
+Conferência do ambiente SQS antes de seguir para o SNS.
 ![Evidência 07](./images/step-07.png)
 ### Fase 2 - criação do tópico SNS
-**Evidência 08.** Tela de criação do tópico principal do e-commerce no Amazon SNS.
+Tela de criação do tópico principal do e-commerce no Amazon SNS.
 ![Evidência 08](./images/step-08.png)
-**Evidência 09.** Definição do tipo Standard para o barramento de eventos.
+Definição do tipo Standard para o barramento de eventos.
 ![Evidência 09](./images/step-09.png)
-**Evidência 10.** Confirmação do tópico criado e pronto para receber assinaturas.
+Confirmação do tópico criado e pronto para receber assinaturas.
 ![Evidência 10](./images/step-10.png)
-**Evidência 11.** Detalhes do tópico com ARN e configurações principais.
+Detalhes do tópico com ARN e configurações principais.
 ![Evidência 11](./images/step-11.png)
-**Evidência 12.** Navegação pelas opções do tópico antes das integrações.
+Navegação pelas opções do tópico antes das integrações.
 ![Evidência 12](./images/step-12.png)
-**Evidência 13.** Validação final do tópico antes da etapa de IAM.
+Validação final do tópico antes da etapa de IAM.
 ![Evidência 13](./images/step-13.png)
 ### Fase 3 - papéis IAM para as Lambdas
-**Evidência 14.** Início da criação da role genérica para funções Lambda.
+Início da criação da role genérica para funções Lambda.
 ![Evidência 14](./images/step-14.png)
-**Evidência 15.** Seleção da política AWSLambdaBasicExecutionRole.
+Seleção da política AWSLambdaBasicExecutionRole.
 ![Evidência 15](./images/step-15.png)
-**Evidência 16.** Revisão do papel IAM para Inventário, Pagamento e Notificação.
+Revisão do papel IAM para Inventário, Pagamento e Notificação.
 ![Evidência 16](./images/step-16.png)
-**Evidência 17.** Criação da role específica para a Lambda de fraude via SQS.
+Criação da role específica para a Lambda de fraude via SQS.
 ![Evidência 17](./images/step-17.png)
-**Evidência 18.** Adição de permissões extras de SQS para consumo da fila.
+Adição de permissões extras de SQS para consumo da fila.
 ![Evidência 18](./images/step-18.png)
-**Evidência 19.** Conclusão da role LambdaRoleSQSFraude para a análise de fraude.
+Conclusão da role LambdaRoleSQSFraude para a análise de fraude.
 ![Evidência 19](./images/step-19.png)
-**Evidência 20.** Conferência dos papéis IAM criados para o laboratório.
+Conferência dos papéis IAM criados para o laboratório.
 ![Evidência 20](./images/step-20.png)
 ### Fase 4 - Lambda de inventário
-**Evidência 21.** Criação da função lambda-inventario no console Lambda.
+Criação da função lambda-inventario no console Lambda.
 ![Evidência 21](./images/step-21.png)
-**Evidência 22.** Seleção do runtime Python para a função de inventário.
+Seleção do runtime Python para a função de inventário.
 ![Evidência 22](./images/step-22.png)
-**Evidência 23.** Escolha da role de execução da Lambda de inventário.
+Escolha da role de execução da Lambda de inventário.
 ![Evidência 23](./images/step-23.png)
-**Evidência 24.** Função criada e pronta para edição do código.
+Função criada e pronta para edição do código.
 ![Evidência 24](./images/step-24.png)
-**Evidência 25.** Editor da função com o código de processamento do tópico SNS.
+Editor da função com o código de processamento do tópico SNS.
 ![Evidência 25](./images/step-25.png)
-**Evidência 26.** Deploy do código da Lambda de inventário.
+Deploy do código da Lambda de inventário.
 ![Evidência 26](./images/step-26.png)
-**Evidência 27.** Validação da função publicada no console.
+Validação da função publicada no console.
 ![Evidência 27](./images/step-27.png)
 ### Fase 5 - Lambda de pagamento
-**Evidência 28.** Criação da função lambda-pagamento.
+Criação da função lambda-pagamento.
 ![Evidência 28](./images/step-28.png)
-**Evidência 29.** Configuração básica com runtime Python 3.12.
+Configuração básica com runtime Python 3.12.
 ![Evidência 29](./images/step-29.png)
-**Evidência 30.** Vinculação da role genérica de Lambda ao fluxo de pagamento.
+Vinculação da role genérica de Lambda ao fluxo de pagamento.
 ![Evidência 30](./images/step-30.png)
-**Evidência 31.** Editor com a lógica de leitura de atributos PaymentType e OrderID.
+Editor com a lógica de leitura de atributos PaymentType e OrderID.
 ![Evidência 31](./images/step-31.png)
-**Evidência 32.** Deploy do código da Lambda de pagamento.
+Deploy do código da Lambda de pagamento.
 ![Evidência 32](./images/step-32.png)
-**Evidência 33.** Revisão da função implantada com sucesso.
+Revisão da função implantada com sucesso.
 ![Evidência 33](./images/step-33.png)
-**Evidência 34.** Conferência da função antes de seguir para a próxima Lambda.
+Conferência da função antes de seguir para a próxima Lambda.
 ![Evidência 34](./images/step-34.png)
 ### Fase 6 - Lambda de notificação ao cliente
-**Evidência 35.** Criação da função lambda-notificacao-cliente.
+Criação da função lambda-notificacao-cliente.
 ![Evidência 35](./images/step-35.png)
-**Evidência 36.** Definição do runtime e parâmetros básicos da função.
+Definição do runtime e parâmetros básicos da função.
 ![Evidência 36](./images/step-36.png)
-**Evidência 37.** Associação da role de execução para logs no CloudWatch.
+Associação da role de execução para logs no CloudWatch.
 ![Evidência 37](./images/step-37.png)
-**Evidência 38.** Código da Lambda de notificação lendo CustomerEmail e OrderID.
+Código da Lambda de notificação lendo CustomerEmail e OrderID.
 ![Evidência 38](./images/step-38.png)
-**Evidência 39.** Deploy da função de notificação ao cliente.
+Deploy da função de notificação ao cliente.
 ![Evidência 39](./images/step-39.png)
-**Evidência 40.** Validação da função criada no console Lambda.
+Validação da função criada no console Lambda.
 ![Evidência 40](./images/step-40.png)
 ### Fase 7 - Lambda de análise de fraude e trigger SQS
-**Evidência 41.** Criação da função lambda-analise-fraude.
+Criação da função lambda-analise-fraude.
 ![Evidência 41](./images/step-41.png)
-**Evidência 42.** Seleção da role com permissões de SQS para a análise de fraude.
+Seleção da role com permissões de SQS para a análise de fraude.
 ![Evidência 42](./images/step-42.png)
-**Evidência 43.** Código da Lambda de fraude consumindo a mensagem recebida da fila.
+Código da Lambda de fraude consumindo a mensagem recebida da fila.
 ![Evidência 43](./images/step-43.png)
-**Evidência 44.** Deploy da função de fraude com leitura do TransactionValue.
+Deploy da função de fraude com leitura do TransactionValue.
 ![Evidência 44](./images/step-44.png)
-**Evidência 45.** Tela de configuração do gatilho SQS para a Lambda de fraude.
+Tela de configuração do gatilho SQS para a Lambda de fraude.
 ![Evidência 45](./images/step-45.png)
-**Evidência 46.** Vínculo da fila fila-fraude-analise como trigger da função.
+Vínculo da fila fila-fraude-analise como trigger da função.
 ![Evidência 46](./images/step-46.png)
-**Evidência 47.** Gatilho SQS configurado e pronto para ser habilitado.
+Gatilho SQS configurado e pronto para ser habilitado.
 ![Evidência 47](./images/step-47.png)
 ### Fase 8 - assinaturas SNS com filtros
-**Evidência 48.** Criação da assinatura da Lambda de inventário com protocolo AWS Lambda.
+Criação da assinatura da Lambda de inventário com protocolo AWS Lambda.
 ![Evidência 48](./images/step-48.png)
-**Evidência 49.** Aplicação da filter policy para OrderPlaced e InventoryCheckRequired.
+Aplicação da filter policy para OrderPlaced e InventoryCheckRequired.
 ![Evidência 49](./images/step-49.png)
-**Evidência 50.** Configuração da assinatura da Lambda de pagamento.
+Configuração da assinatura da Lambda de pagamento.
 ![Evidência 50](./images/step-50.png)
-**Evidência 51.** Filter policy do pagamento filtrando PaymentType para CreditCard e Boleto.
+Filter policy do pagamento filtrando PaymentType para CreditCard e Boleto.
 ![Evidência 51](./images/step-51.png)
-**Evidência 52.** Criação da assinatura da fila de pagamento via protocolo Amazon SQS.
+Criação da assinatura da fila de pagamento via protocolo Amazon SQS.
 ![Evidência 52](./images/step-52.png)
-**Evidência 53.** Criação da assinatura da fila de notificação ao cliente.
+Criação da assinatura da fila de notificação ao cliente.
 ![Evidência 53](./images/step-53.png)
-**Evidência 54.** Configuração da assinatura da fila/função usada na análise de fraude.
+Configuração da assinatura da fila/função usada na análise de fraude.
 ![Evidência 54](./images/step-54.png)
-**Evidência 55.** Filter policy da fraude com TransactionValue maior que 500.
+Filter policy da fraude com TransactionValue maior que 500.
 ![Evidência 55](./images/step-55.png)
-**Evidência 56.** Confirmação das assinaturas registradas no tópico SNS.
+Confirmação das assinaturas registradas no tópico SNS.
 ![Evidência 56](./images/step-56.png)
-**Evidência 57.** Revisão das assinaturas confirmadas no tópico do e-commerce.
+Revisão das assinaturas confirmadas no tópico do e-commerce.
 ![Evidência 57](./images/step-57.png)
 ### Fase 9 - publicação do evento e validação
-**Evidência 58.** Publicação da mensagem de teste no tópico SNS com atributos do pedido.
+Publicação da mensagem de teste no tópico SNS com atributos do pedido.
 ![Evidência 58](./images/step-58.png)
-**Evidência 59.** Configuração dos atributos OrderPlaced, PaymentType e TransactionValue.
+Configuração dos atributos OrderPlaced, PaymentType e TransactionValue.
 ![Evidência 59](./images/step-59.png)
-**Evidência 60.** Confirmação da publicação da mensagem no tópico.
+Confirmação da publicação da mensagem no tópico.
 ![Evidência 60](./images/step-60.png)
-**Evidência 61.** Resultado final do fluxo com o tópico e assinaturas consolidadas.
+Resultado final do fluxo com o tópico e assinaturas consolidadas.
 ![Evidência 61](./images/step-61.png)
-**Evidência 62.** Conferência do comportamento esperado antes da análise de logs.
+Conferência do comportamento esperado antes da análise de logs.
 ![Evidência 62](./images/step-62.png)
-**Evidência 63.** Validação final do laboratório e do fan-out do e-commerce.
+Validação final do laboratório e do fan-out do e-commerce.
 ![Evidência 63](./images/step-63.png)
+
 
