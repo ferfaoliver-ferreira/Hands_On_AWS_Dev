@@ -45,6 +45,7 @@ Cada subpasta dentro deste repositório representa um projeto prático completo,
 | :--- | :--- | :--- |
 | [🎮 Serverless Guessing Game](./Serverless_Guessing_Game_AWS) | Jogo de adivinhação com frontend estático acionando microsserviço assíncrono para processamento lógico. | AWS Lambda, API Gateway, Amazon S3, Python 3.13 |
 | [⛓️ AWS Resilient Architecture](./AWS-resilient-architecture-sns-sqs) | Implementação de arquitetura desacoplada e resiliente utilizando tópicos de publicação/assinatura e filas de mensagens para garantir entrega e tolerância a falhas. | Amazon SNS, Amazon SQS |
+| [🛒 Fan-Out para E-commerce](./AWS-fanout-sns-sqs-lambda-ecommerce) | Arquitetura orientada a eventos com SNS, SQS, Lambda, filtros de assinatura e DLQ para processar pedidos de e-commerce com desacoplamento e resiliência. | Amazon SNS, Amazon SQS, AWS Lambda, AWS IAM, Amazon CloudWatch Logs |
 | *(Próximos Labs)* | *Novos laboratórios práticos serão adicionados ao longo da jornada de estudos.* | *Em constante atualização...* |
 ---
 
