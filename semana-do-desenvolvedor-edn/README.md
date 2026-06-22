@@ -50,6 +50,19 @@ No fim da semana, a arquitetura combina:
 
 ![Arquitetura completa da Semana do Desenvolvedor EDN](./arquitetura-completa.png)
 
+## Interface web da trilha
+
+Além desta documentação em Markdown, a trilha agora também possui uma interface frontend em:
+
+- [site/index.html](./site/index.html)
+
+Nela, você encontra:
+
+- página inicial com visão geral da semana
+- navegação separada para os quatro dias
+- destaque visual das arquiteturas de cada etapa
+- acesso rápido aos READMEs originais e ao repositório central
+
 ## Resultado esperado ao final da semana
 
 Ao concluir a trilha, a ideia é ter uma arquitetura completa com:
