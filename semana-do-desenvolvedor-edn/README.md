@@ -78,6 +78,8 @@ Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
 
 O primeiro laboratorio constroi a base de entrada em tempo real:
 
+![Arquitetura do Dia 1](./dia-1-api-eventbridge/images/arquitetura-dia-1.png)
+
 - **API Gateway**
   endpoint funcional para receber pedidos
 - **AWS Lambda**
@@ -90,6 +92,8 @@ O primeiro laboratorio constroi a base de entrada em tempo real:
 ### Dia 2
 
 O segundo laboratorio adiciona a entrada por arquivos:
+
+![Arquitetura do Dia 2](./dia-2-s3-integracao/images/arquitetura-dia-2.png)
 
 - **Amazon S3**
   bucket configurado para receber arquivos JSON de pedidos
@@ -106,6 +110,8 @@ O segundo laboratorio adiciona a entrada por arquivos:
 
 O terceiro dia concentra o processamento principal do pedido:
 
+![Arquitetura do Dia 3](./dia-3-processamento-pedidos/images/arquitetura-dia-3.png)
+
 - **Amazon EventBridge**
   roteamento de eventos de novos pedidos validados
 - **AWS Lambda**
@@ -118,6 +124,8 @@ O terceiro dia concentra o processamento principal do pedido:
 ### Dia 4
 
 O quarto dia amplia os fluxos de negocio e reforca o tratamento de falhas:
+
+![Arquitetura do Dia 4](./dia-4-fluxos-dlq/images/arquitetura-dia-4.png)
 
 - **Fluxos funcionais**
   cancelamento e alteracao de pedidos
