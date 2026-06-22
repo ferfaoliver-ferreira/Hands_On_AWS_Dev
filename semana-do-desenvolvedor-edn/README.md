@@ -46,6 +46,10 @@ No fim da semana, a arquitetura combina:
 - notificacoes com **Amazon SNS**
 - persistencia e rastreabilidade com **Amazon DynamoDB**
 
+### Arquitetura completa da semana
+
+![Arquitetura completa da Semana do Desenvolvedor EDN](./arquitetura-completa.png)
+
 ## Resultado esperado ao final da semana
 
 Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
@@ -149,5 +153,6 @@ Cada subpasta desta trilha representa um dia da semana e deve conter:
 
 ## Status atual
 
-- **Dia 1** ja documentado com arquitetura, explicacao tecnica e evidencias
-- **Dias 2, 3 e 4** preparados para receber a documentacao completa no mesmo padrao
+- **Dia 1** documentado com arquitetura, explicacao tecnica e evidencias
+- **Dia 2** documentado com arquitetura, explicacao tecnica e evidencias
+- **Dias 3 e 4** preparados para receber a documentacao completa no mesmo padrao
