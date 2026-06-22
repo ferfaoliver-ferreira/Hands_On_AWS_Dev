@@ -1,56 +1,52 @@
 # Hands_On_AWS_Dev
-Repositório de laboratórios Hands On na AWS
 
-# 🚀 Hands-On AWS Developer Associate
+Repositorio central de laboratorios praticos na AWS, com foco em arquitetura serverless, integracao entre servicos, observabilidade, seguranca e boas praticas para quem esta estudando desenvolvimento em nuvem.
 
-Laboratórios e Casos de Uso Serverless para Desenvolvimento na AWS
+## Objetivo do repositorio
 
----
-Laboratórios e Casos de Uso Serverless para Desenvolvimento na AWS
+Este repositorio reune projetos hands-on voltados para a trilha de **AWS Developer**, organizando cada laboratorio em uma pasta propria com:
 
-Bem-vindo(a) ao meu repositório central de estudos práticos voltados para a certificação **AWS Certified Developer - Associate (DVA-C02)**! 
+- documentacao tecnica
+- arquitetura
+- evidencias visuais
+- servicos utilizados
+- aprendizados consolidados
 
-Este espaço foi criado com o objetivo de consolidar, documentar e estruturar todos os laboratórios, arquiteturas e cenários reais implementados na Amazon Web Services (AWS). Aqui, foco em aplicar os conceitos de computação serverless, segurança, integração de microsserviços, CI/CD e boas práticas de FinOps.
+## Trilhas e laboratorios
 
----
+Cada subpasta representa um laboratorio completo ou uma trilha tematica dentro da jornada de estudos.
 
-## 🏗️ Objetivos de Aprendizado
-
-Os projetos desenvolvidos neste repositório cobrem os principais domínios exigidos para a atuação como Engenheiro(a) de Cloud/Desenvolvedor(a) AWS:
-* **Desenvolvimento com Serviços AWS:** Implementação de código focado em consumo de APIs, SDKs e gerenciamento de estados.
-* **Segurança na Nuvem:** Configuração de IAM Roles, Bucket Policies no S3, mitigação de CORS e criptografia de dados.
-* **Deployment e Automação:** Estruturação de ambientes escaláveis e esteiras eficientes.
-* **Refatoração e Otimização:** Migração de arquiteturas tradicionais para modelos serverless com foco em performance e redução de custos (FinOps).
-
----
-
-## 🛠️ Principais Tecnologias Exploradas
-
-* **Computação:** AWS Lambda
-* **Integração e APIs:** Amazon API Gateway
-* **Armazenamento:** Amazon S3
-* **Linguagens e Frameworks:** Python, JavaScript (Fetch API)
-
----
-
-## 📂 Organização dos Laboratórios
-
-Cada subpasta dentro deste repositório representa um projeto completo, contendo seu próprio código-fonte, arquitetura documentada e evidências visuais de execução na console da AWS.
-
-## 📂 Organização dos Laboratórios
-
-Cada subpasta dentro deste repositório representa um projeto prático completo, contendo sua própria documentação técnica e evidências visuais de execução.
-
-| Projeto | Descrição Técnica | Serviços Utilizados |
+| Laboratorio | Descricao | Servicos |
 | :--- | :--- | :--- |
-| [🎮 Serverless Guessing Game](./Serverless_Guessing_Game_AWS) | Jogo de adivinhação com frontend estático acionando microsserviço assíncrono para processamento lógico. | AWS Lambda, API Gateway, Amazon S3, Python 3.13 |
-| [⛓️ AWS Resilient Architecture](./AWS-resilient-architecture-sns-sqs) | Implementação de arquitetura desacoplada e resiliente utilizando tópicos de publicação/assinatura e filas de mensagens para garantir entrega e tolerância a falhas. | Amazon SNS, Amazon SQS |
-| [🛒 Fan-Out para E-commerce](./AWS-fanout-sns-sqs-lambda-ecommerce) | Arquitetura orientada a eventos com SNS, SQS, Lambda, filtros de assinatura e DLQ para processar pedidos de e-commerce com desacoplamento e resiliência. | Amazon SNS, Amazon SQS, AWS Lambda, AWS IAM, Amazon CloudWatch Logs |
-| *(Próximos Labs)* | *Novos laboratórios práticos serão adicionados ao longo da jornada de estudos.* | *Em constante atualização...* |
----
+| [Semana do Desenvolvedor EDN](./semana-do-desenvolvedor-edn) | Trilha especial com os 4 dias da Semana do Desenvolvedor da Escola da Nuvem, centralizando os laboratorios em uma unica estrutura. | API Gateway, Lambda, SQS, EventBridge e outros servicos AWS |
+| [Serverless Guessing Game](./Serverless_Guessing_Game_AWS) | Jogo serverless com frontend estatico e backend desacoplado para praticar integracao e processamento via Lambda. | AWS Lambda, API Gateway, Amazon S3 |
+| [AWS Resilient Architecture](./AWS-resilient-architecture-sns-sqs) | Arquitetura desacoplada e resiliente com publicacao, assinaturas e filas para tolerancia a falhas. | Amazon SNS, Amazon SQS |
+| [Fan-Out para E-commerce](./AWS-fanout-sns-sqs-lambda-ecommerce) | Fluxo orientado a eventos para e-commerce com filtros, filas, Lambdas e DLQ. | Amazon SNS, Amazon SQS, AWS Lambda, IAM, CloudWatch Logs |
+| [AWS DynamoDB LSI/GSI Query](./AWS-dynamodb-lsi-gsi-query) | Estudos práticos com modelagem e consultas em DynamoDB usando indices locais e globais. | Amazon DynamoDB |
+| [AWS S3 Versioning, Lifecycle e Access Logs](./AWS-s3-versioning-lifecycle-accesslogs) | Laboratorio de governanca e gerenciamento de objetos com versionamento, regras de ciclo de vida e logs. | Amazon S3 |
+| [AWS Lambda Aliases, API Gateway e Stages](./AWS-lambda-aliases-api-gateway-stages) | Estrategias de versionamento e deploy para APIs serverless. | AWS Lambda, Amazon API Gateway |
+| [AWS SSM Parameter Store e KMS](./AWS-ssm-parameter-store-kms-cli) | Protecao e uso de configuracoes sensiveis com Parameter Store e criptografia. | AWS Systems Manager, AWS KMS |
+| [AWS FinOps EC2 Automation](./AWS-finops-ec2-automation) | Automacao e boas praticas de custo em workloads com EC2. | Amazon EC2, automacao AWS |
+| [EC2 Console vs CLI](./02-ec2-console-vs-cli) | Comparacao pratica entre operacoes via console e linha de comando. | Amazon EC2, AWS CLI |
 
-## 🧼 Filosofia de Gerenciamento (FinOps)
-Todos os laboratórios aqui documentados passam obrigatoriamente por um ciclo completo de vida, que inclui a homologação e a subsequente **desestruturação controlada de recursos (Clean-up)**. Essa prática garante o domínio sobre as ferramentas de gerenciamento financeiro da AWS, evitando custos desnecessários e mantendo a conta de nuvem otimizada.
+## Destaque: Semana do Desenvolvedor EDN
 
----
-🔬 *Grande parte dos desafios e laboratórios aqui contidos são desenvolvidos e inspirados na trilha prática orientada pela Escola da Nuvem.*
+A pasta [semana-do-desenvolvedor-edn](./semana-do-desenvolvedor-edn) foi criada para agrupar os laboratorios da Semana do Desenvolvedor da Escola da Nuvem em um unico lugar. A ideia e manter os **4 dias** organizados dentro do repositorio central, com um padrao visual e textual consistente.
+
+Status atual da trilha:
+
+- Dia 1 documentado
+- Dias 2, 3 e 4 preparados para receber a documentacao
+
+## Organizacao esperada dos projetos
+
+Cada laboratorio ou trilha deve conter, sempre que possivel:
+
+- `README.md` com contexto, objetivo, servicos e passo a passo
+- pasta `images/` com capturas e evidencias
+- arquitetura ilustrada
+- secao de limpeza de recursos
+
+## Observacao sobre custos
+
+Todos os laboratorios devem ser encerrados com limpeza dos recursos criados. Esse cuidado ajuda a consolidar boas praticas de operacao e evita custos desnecessarios na conta AWS.
