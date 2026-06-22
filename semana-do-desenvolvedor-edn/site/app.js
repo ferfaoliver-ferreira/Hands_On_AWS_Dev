@@ -217,7 +217,12 @@ function navMarkup(current) {
             <span>Arquitetura orientada a eventos na AWS</span>
           </span>
         </a>
-        <nav class="site-nav" aria-label="Navegação principal">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-list" aria-label="Abrir navegação">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="site-nav" id="site-nav-list" aria-label="Navegação principal">
           ${items
             .map(
               ([href, label, id]) =>
@@ -308,6 +313,7 @@ function iconMarkup(symbol) {
 function renderChrome(current) {
   document.body.insertAdjacentHTML("afterbegin", navMarkup(current));
   document.body.insertAdjacentHTML("beforeend", footerMarkup());
+  bindInteractiveChrome();
 }
 
 function cardIcon(index) {
@@ -682,4 +688,45 @@ if (page === "home") {
   renderHome();
 } else if (dayData[page]) {
   renderDayPage(page);
+}
+
+function bindInteractiveChrome() {
+  const toggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".site-nav");
+
+  if (toggle && nav) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      document.body.classList.toggle("nav-open", !isOpen);
+    });
+
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        toggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("nav-open");
+      });
+    });
+  }
+
+  document.querySelectorAll(".timeline-card, .resource-card, .readme-card, .pager-card").forEach((card) => {
+    const primaryLink = card.querySelector("a[href]");
+    if (!primaryLink) return;
+
+    card.classList.add("card-link");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("role", "link");
+
+    card.addEventListener("click", (event) => {
+      if (event.target.closest("a")) return;
+      primaryLink.click();
+    });
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        primaryLink.click();
+      }
+    });
+  });
 }
