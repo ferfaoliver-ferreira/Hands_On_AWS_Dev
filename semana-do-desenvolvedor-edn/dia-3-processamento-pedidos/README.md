@@ -1,30 +1,30 @@
-# Dia 3 - Processamento Central de Pedidos e Persistencia
+# Dia 3 - Processamento Central de Pedidos e Persistência
 
-Este laboratorio documenta a etapa de processamento central dos pedidos, conectando o fluxo de validacao dos Dias 1 e 2 a uma camada principal de persistencia com **Amazon EventBridge**, **Amazon SQS Standard**, **AWS Lambda** e **Amazon DynamoDB**. A proposta foi consumir os eventos `NovoPedidoValidado`, desacoplar o processamento via fila e salvar o estado final do pedido em uma tabela principal.
+Este laboratório documenta a etapa de processamento central dos pedidos, conectando o fluxo de validação dos Dias 1 e 2 a uma camada principal de persistência com **Amazon EventBridge**, **Amazon SQS Standard**, **AWS Lambda** e **Amazon DynamoDB**. A proposta foi consumir os eventos `NovoPedidoValidado`, desacoplar o processamento via fila e salvar o estado final do pedido em uma tabela principal.
 
 ## Por que este conhecimento e importante
 
-Nos dois primeiros dias, o sistema foi preparado para receber pedidos de multiplas origens e validar esses dados antes de publicar um evento. O Dia 3 mostra como transformar esse evento em um fluxo central de negocio, no qual pedidos validados passam por processamento e sao persistidos de forma estruturada.
+Nos dois primeiros dias, o sistema foi preparado para receber pedidos de múltiplas origens e validar esses dados antes de publicar um evento. O Dia 3 mostra como transformar esse evento em um fluxo central de negócio, no qual pedidos validados passam por processamento e são persistidos de forma estruturada.
 
-Os principais ganhos praticos deste desenho sao:
+Os principais ganhos práticos deste desenho são:
 
-- **Padronizacao do processamento** apos a validacao dos pedidos
-- **Desacoplamento entre roteamento e persistencia**
+- **Padronização do processamento** após a validação dos pedidos
+- **Desacoplamento entre roteamento e persistência**
 - **Reaproveitamento dos eventos** publicados por API e S3
-- **Buffer resiliente com SQS** antes da regra principal de negocio
-- **Persistencia final em DynamoDB** com status e dados do pedido
+- **Buffer resiliente com SQS** antes da regra principal de negócio
+- **Persistência final em DynamoDB** com status e dados do pedido
 
-## Objetivo do laboratorio
+## Objetivo do laboratório
 
 Construir um fluxo em que:
 
 - o **EventBridge** capture eventos `NovoPedidoValidado`
 - uma **regra** encaminhe esses eventos para uma fila SQS Standard
 - uma **Lambda de processamento** consuma a fila
-- a funcao simule a logica central do pedido
+- a função simule a lógica central do pedido
 - o pedido processado seja persistido em uma **tabela DynamoDB principal**
 
-## Servicos utilizados
+## Serviços utilizados
 
 - Amazon EventBridge
 - Amazon SQS Standard
@@ -36,7 +36,7 @@ Construir um fluxo em que:
 
 ## Arquitetura implementada
 
-![Arquitetura do laboratorio](./images/arquitetura-dia-3.png)
+![Arquitetura do laboratório](./images/arquitetura-dia-3.png)
 
 ```mermaid
 flowchart LR
@@ -47,7 +47,7 @@ flowchart LR
     D --> F["DynamoDB Pedidos"]
 ```
 
-## Recursos criados no laboratorio
+## Recursos criados no laboratório
 
 - `lambda-processa-pedidos-role-seu-nome`
 - `pedidos-pendentes-dlq-seu-nome`
@@ -62,11 +62,11 @@ flowchart LR
 2. A regra `novo-pedido-validado-rule-seu-nome` captura o evento.
 3. O evento segue para a fila `pedidos-pendentes-queue-seu-nome`.
 4. A Lambda `processa-pedidos-lambda-seu-nome` consome a fila.
-5. A funcao extrai o campo `detail` do evento EventBridge.
+5. A função extrai o campo `detail` do evento EventBridge.
 6. O pedido recebe o status `PEDIDO_PROCESSADO`.
-7. Os dados finais sao persistidos em `pedidos-db-seu-nome`.
+7. Os dados finais são persistidos em `pedidos-db-seu-nome`.
 
-## Passo a passo tecnico
+## Passo a passo técnico
 
 ### 1. Criar a role IAM da Lambda de processamento
 
@@ -74,11 +74,11 @@ Criar a role:
 
 - `lambda-processa-pedidos-role-seu-nome`
 
-Com a politica gerenciada:
+Com a política gerenciada:
 
 - `AWSLambdaBasicExecutionRole`
 
-Depois, complementar com permissoes para:
+Depois, complementar com permissões para:
 
 - ler mensagens da fila SQS principal
 - gravar e consultar itens na tabela DynamoDB principal
@@ -110,9 +110,9 @@ Chave primaria:
 
 - `pedidoId` do tipo `String`
 
-Essa tabela sera o armazenamento principal do estado final dos pedidos processados.
+Essa tabela será o armazenamento principal do estado final dos pedidos processados.
 
-### 4. Atualizar as permissoes da role
+### 4. Atualizar as permissões da role
 
 Adicionar uma inline policy com acesso a SQS e DynamoDB:
 
@@ -144,7 +144,7 @@ Adicionar uma inline policy com acesso a SQS e DynamoDB:
 
 ### 5. Criar a Lambda de processamento de pedidos
 
-Criar a funcao:
+Criar a função:
 
 - `processa-pedidos-lambda-seu-nome`
 
@@ -177,7 +177,7 @@ def lambda_handler(event, context):
             print(f"Evento EventBridge recebido via SQS: {eventbridge_event}")
 
             if "detail" not in eventbridge_event:
-                print(f"Erro: Campo 'detail' nao encontrado no evento: {eventbridge_event}")
+                print(f"Erro: Campo 'detail' não encontrado no evento: {eventbridge_event}")
                 continue
 
             pedido_data = eventbridge_event["detail"]
@@ -185,7 +185,7 @@ def lambda_handler(event, context):
 
             pedido_id = pedido_data.get("pedidoId")
             if not pedido_id:
-                print(f"Erro: pedidoId nao encontrado nos detalhes do evento: {pedido_data}")
+                print(f"Erro: pedidoId não encontrado nos detalhes do evento: {pedido_data}")
                 continue
 
             status_processamento = "PEDIDO_PROCESSADO"
@@ -198,7 +198,7 @@ def lambda_handler(event, context):
                 "statusPedido": status_processamento,
                 "origem": pedido_data.get("origem", "API"),
                 "nomeArquivoOriginal": pedido_data.get("nomeArquivoOriginal"),
-                "timestampCriacaoEvento": eventbridge_event.get(
+                "timestampCriaçãoEvento": eventbridge_event.get(
                     "time",
                     pedido_data.get("timestamp", datetime.utcnow().isoformat() + "Z")
                 ),
@@ -243,11 +243,11 @@ Criar a regra:
 
 - `novo-pedido-validado-rule-seu-nome`
 
-No custom event bus `pedidos-event-bus-seu-nome`, com o seguinte padrao:
+No custom event bus `pedidos-event-bus-seu-nome`, com o seguinte padrão:
 
 ```json
 {
-  "source": ["lab.aula1.pedidos.validacao"],
+  "source": ["lab.aula1.pedidos.validação"],
   "detail-type": ["NovoPedidoValidado"]
 }
 ```
@@ -276,117 +276,117 @@ curl -X POST <INVOKE_URL>/pedidos \
   }'
 ```
 
-Depois, testar tambem com um arquivo do fluxo do Dia 2 contendo:
+Depois, testar também com um arquivo do fluxo do Dia 2 contendo:
 
 - `s3P003-seu-nome`
 
-Validacoes esperadas:
+Validações esperadas:
 
-- a Lambda de validacao publica os eventos no EventBridge
+- a Lambda de validação publica os eventos no EventBridge
 - a regra encaminha os eventos para `pedidos-pendentes-queue-seu-nome`
 - a Lambda de processamento grava `apiP001-seu-nome` e `s3P003-seu-nome` em `pedidos-db-seu-nome`
 - os itens persistidos possuem `statusPedido = PEDIDO_PROCESSADO`
 
 ## Aprendizados consolidados
 
-Este laboratorio fecha o elo entre a validacao e a persistencia final do pedido. A partir daqui, tanto pedidos vindos da API quanto pedidos extraidos do S3 podem passar por uma mesma etapa de processamento central e chegar a um armazenamento unico com status consolidado.
+Este laboratório fecha o elo entre a validação e a persistência final do pedido. A partir daqui, tanto pedidos vindos da API quanto pedidos extraidos do S3 podem passar por uma mesma etapa de processamento central e chegar a um armazenamento unico com status consolidado.
 
-Os principais conceitos reforcados foram:
+Os principais conceitos reforçados foram:
 
-- **EventBridge para roteamento baseado em padrao**
-- **SQS como buffer entre evento e regra de negocio**
+- **EventBridge para roteamento baseado em padrão**
+- **SQS como buffer entre evento e regra de negócio**
 - **Lambda para processamento central**
 - **DynamoDB como base principal dos pedidos**
-- **Integracao de multiplas origens em um fluxo comum**
+- **Integração de múltiplas origens em um fluxo comum**
 
 ## Limpeza dos recursos
 
-Ao final do laboratorio, remover:
+Ao final do laboratório, remover:
 
 - regra do EventBridge criada para `NovoPedidoValidado`
 - fila principal de pedidos pendentes e sua DLQ
 - Lambda de processamento de pedidos
 - tabela DynamoDB principal
-- role IAM criada para o laboratorio
+- role IAM criada para o laboratório
 
 ## Evidencias visuais em ordem das orientacoes
 
 ### Fase 1 - IAM e preparo do fluxo central
-Criacao da role da Lambda de processamento de pedidos.
+Criação da role da Lambda de processamento de pedidos.
 ![Evidencia 01](./images/step-01.png)
-Selecao da trusted entity para Lambda.
+Seleção da trusted entity para Lambda.
 ![Evidencia 02](./images/step-02.png)
-Associacao da policy basica da funcao.
+Associação da policy básica da função.
 ![Evidencia 03](./images/step-03.png)
-Revisao final da role criada.
+Revisão final da role criada.
 ![Evidencia 04](./images/step-04.png)
 
 ### Fase 2 - SQS pendentes e DLQ
-Criacao da DLQ `pedidos-pendentes-dlq-seu-nome`.
+Criação da DLQ `pedidos-pendentes-dlq-seu-nome`.
 ![Evidencia 05](./images/step-05.png)
-Confirmacao da fila DLQ.
+Confirmação da fila DLQ.
 ![Evidencia 06](./images/step-06.png)
-Criacao da fila `pedidos-pendentes-queue-seu-nome`.
+Criação da fila `pedidos-pendentes-queue-seu-nome`.
 ![Evidencia 07](./images/step-07.png)
-Configuracao de `Visibility timeout = 70`.
+Configuração de `Visibility timeout = 70`.
 ![Evidencia 08](./images/step-08.png)
 Associacao da DLQ e ajuste de `Maximum receives = 3`.
 ![Evidencia 09](./images/step-09.png)
-Revisao da fila principal criada.
+Revisão da fila principal criada.
 ![Evidencia 10](./images/step-10.png)
 
 ### Fase 3 - DynamoDB principal
-Criacao da tabela `pedidos-db-seu-nome`.
+Criação da tabela `pedidos-db-seu-nome`.
 ![Evidencia 11](./images/step-11.png)
-Definicao da chave `pedidoId`.
+Definição da chave `pedidoId`.
 ![Evidencia 12](./images/step-12.png)
 Tabela criada e pronta para uso.
 ![Evidencia 13](./images/step-13.png)
-Conferencia do ARN da tabela.
+Conferência do ARN da tabela.
 ![Evidencia 14](./images/step-14.png)
 
 ### Fase 4 - Permissoes da role
-Criacao da inline policy com acesso a SQS e DynamoDB.
+Criação da inline policy com acesso a SQS e DynamoDB.
 ![Evidencia 15](./images/step-15.png)
 JSON da policy com `ReceiveMessage`, `DeleteMessage` e `PutItem`.
 ![Evidencia 16](./images/step-16.png)
-Policy revisada antes da criacao.
+Policy revisada antes da criação.
 ![Evidencia 17](./images/step-17.png)
 Permissoes associadas a role.
 ![Evidencia 18](./images/step-18.png)
 
 ### Fase 5 - Lambda de processamento
-Criacao da funcao `processa-pedidos-lambda-seu-nome`.
+Criação da função `processa-pedidos-lambda-seu-nome`.
 ![Evidencia 19](./images/step-19.png)
-Selecao do runtime Python 3.12.
+Seleção do runtime Python 3.12.
 ![Evidencia 20](./images/step-20.png)
 Escolha da role da Lambda.
 ![Evidencia 21](./images/step-21.png)
-Edicao do codigo da funcao.
+Edicao do codigo da função.
 ![Evidencia 22](./images/step-22.png)
 Deploy da Lambda de processamento.
 ![Evidencia 23](./images/step-23.png)
-Configuracao da variavel `DYNAMODB_TABLE_NAME`.
+Configuração da variável `DYNAMODB_TABLE_NAME`.
 ![Evidencia 24](./images/step-24.png)
 Ajuste do timeout para 60 segundos.
 ![Evidencia 25](./images/step-25.png)
-Adicao do trigger SQS.
+Adição do trigger SQS.
 ![Evidencia 26](./images/step-26.png)
-Selecao da fila `pedidos-pendentes-queue-seu-nome`.
+Seleção da fila `pedidos-pendentes-queue-seu-nome`.
 ![Evidencia 27](./images/step-27.png)
 Trigger configurado com `Batch size = 1`.
 ![Evidencia 28](./images/step-28.png)
 
 ### Fase 6 - Regra do EventBridge
-Criacao da regra `novo-pedido-validado-rule-seu-nome`.
+Criação da regra `novo-pedido-validado-rule-seu-nome`.
 ![Evidencia 29](./images/step-29.png)
-Definicao do event bus customizado.
+Definição do event bus customizado.
 ![Evidencia 30](./images/step-30.png)
-Configuracao do padrao `source` e `detail-type`.
+Configuração do padrão `source` e `detail-type`.
 ![Evidencia 31](./images/step-31.png)
-Selecao da fila SQS como destino.
+Seleção da fila SQS como destino.
 ![Evidencia 32](./images/step-32.png)
-Revisao e criacao final da regra.
+Revisão e criação final da regra.
 ![Evidencia 33](./images/step-33.png)
 
 ### Fase 7 - Testes do fluxo completo
@@ -394,11 +394,11 @@ Teste com pedido enviado via API.
 ![Evidencia 34](./images/step-34.png)
 Teste com pedido originado de arquivo S3.
 ![Evidencia 35](./images/step-35.png)
-Conferencia da regra no EventBridge.
+Conferência da regra no EventBridge.
 ![Evidencia 36](./images/step-36.png)
 Logs da Lambda de processamento central.
 ![Evidencia 37](./images/step-37.png)
 Consulta aos itens persistidos no DynamoDB.
 ![Evidencia 38](./images/step-38.png)
-Validacao final do fluxo central do Dia 3.
+Validação final do fluxo central do Dia 3.
 ![Evidencia 39](./images/step-39.png)

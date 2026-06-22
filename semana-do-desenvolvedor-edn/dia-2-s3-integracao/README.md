@@ -1,12 +1,12 @@
-# Dia 2 - Ingestao de Arquivos via S3, Rastreamento e Integracao com o Fluxo Principal de Pedidos
+# Dia 2 - Ingestão de Arquivos via S3, Rastreamento e Integração com o Fluxo Principal de Pedidos
 
-Este laboratorio documenta a construcao de um canal alternativo de entrada de pedidos usando **Amazon S3**, **Amazon SQS Standard**, **AWS Lambda**, **Amazon DynamoDB**, **Amazon SNS** e integracao com a **fila FIFO de pedidos criada no Dia 1**. A proposta foi permitir o processamento de pedidos em lote a partir de arquivos JSON enviados para um bucket S3.
+Este laboratório documenta a construção de um canal alternativo de entrada de pedidos usando **Amazon S3**, **Amazon SQS Standard**, **AWS Lambda**, **Amazon DynamoDB**, **Amazon SNS** e integração com a **fila FIFO de pedidos criada no Dia 1**. A proposta foi permitir o processamento de pedidos em lote a partir de arquivos JSON enviados para um bucket S3.
 
 ## Por que este conhecimento e importante
 
-Nem todo sistema recebe pedidos apenas em tempo real por API. Em muitos cenarios, integracoes legadas, parceiros ou rotinas internas enviam arquivos em lote para processamento posterior. Esse laboratorio mostra como transformar esse tipo de entrada em um pipeline confiavel, rastreavel e integrado ao fluxo principal ja existente.
+Nem todo sistema recebe pedidos apenas em tempo real por API. Em muitos cenários, integrações legadas, parceiros ou rotinas internas enviam arquivos em lote para processamento posterior. Esse laboratório mostra como transformar esse tipo de entrada em um pipeline confiável, rastreável e integrado ao fluxo principal já existente.
 
-Os ganhos praticos deste desenho sao:
+Os ganhos práticos deste desenho são:
 
 - **Multiplas fontes de entrada** para o mesmo pipeline de pedidos
 - **Desacoplamento** com filas SQS no inicio do processamento
@@ -14,18 +14,18 @@ Os ganhos praticos deste desenho sao:
 - **Tratamento de erros** com SNS e DLQ
 - **Reaproveitamento do fluxo central** do Dia 1 usando a mesma fila FIFO de pedidos
 
-## Objetivo do laboratorio
+## Objetivo do laboratório
 
 Construir um pipeline em que:
 
 - um **bucket S3** receba arquivos JSON com lotes de pedidos
-- o **S3** envie notificacoes para uma **fila SQS Standard**
+- o **S3** envie notificações para uma **fila SQS Standard**
 - uma **Lambda** leia a fila, baixe o arquivo, valide o schema e extraia os pedidos
-- os pedidos validos sejam enviados para a **fila FIFO principal do Dia 1**
+- os pedidos válidos sejam enviados para a **fila FIFO principal do Dia 1**
 - o resultado do processamento do arquivo seja registrado em uma **tabela DynamoDB**
-- erros de validacao do arquivo gerem notificacoes em um **topico SNS**
+- erros de validação do arquivo gerem notificações em um **tópico SNS**
 
-## Servicos utilizados
+## Serviços utilizados
 
 - Amazon S3
 - Amazon SQS Standard
@@ -38,58 +38,58 @@ Construir um pipeline em que:
 
 ## Arquitetura implementada
 
-![Arquitetura do laboratorio](./images/arquitetura-dia-2.png)
+![Arquitetura do laboratório](./images/arquitetura-dia-2.png)
 
 ```mermaid
 flowchart LR
     A["Amazon S3 (Data Lake)"] --> B["S3 Notification"]
     B --> C["Amazon SQS Arquivos JSON"]
-    C --> D["Lambda de Validacao de Arquivos"]
+    C --> D["Lambda de Validação de Arquivos"]
     C --> E["Amazon SQS DLQ"]
     D --> F["DynamoDB Controle Arquivo Historico"]
     D --> G["SNS Notificacao de Erro"]
     D --> H["Fila FIFO de Pedidos (Dia 1)"]
 ```
 
-## Recursos criados no laboratorio
+## Recursos criados no laboratório
 
 - `lambda-s3-validation-role-seu-nome`
 - `datalake-arquivos-seu-nome`
 - `s3-arquivos-json-dlq-seu-nome`
 - `s3-arquivos-json-queue-seu-nome`
 - `validacao-s3-arquivos-lambda-seu-nome`
-- `controle-arquivos-historico-seu-nome`
+- `controle-arquivos-histórico-seu-nome`
 - `notificacao-erro-arquivos-seu-nome`
 
 ## Fluxo funcional do Dia 2
 
 1. Um arquivo JSON e enviado ao bucket S3.
-2. O S3 publica uma notificacao para a fila `s3-arquivos-json-queue-seu-nome`.
-3. A Lambda `validacao-s3-arquivos-lambda-seu-nome` e acionada pela fila.
-4. A funcao baixa o arquivo, valida o JSON e verifica a chave `lista_pedidos`.
-5. Cada pedido valido do arquivo e transformado para o formato do pipeline principal.
-6. Os pedidos validos sao enviados para a fila FIFO `pedidos-fifo-queue-seu-nome.fifo`.
-7. O processamento do arquivo e registrado no DynamoDB.
-8. Se houver erro de schema ou JSON invalido, uma notificacao e enviada ao SNS.
+2. O S3 publica uma notificação para a fila `s3-arquivos-json-queue-seu-nome`.
+3. A Lambda `validacao-s3-arquivos-lambda-seu-nome` é acionada pela fila.
+4. A função baixa o arquivo, valida o JSON e verifica a chave `lista_pedidos`.
+5. Cada pedido válido do arquivo é transformado para o formato do pipeline principal.
+6. Os pedidos válidos são enviados para a fila FIFO `pedidos-fifo-queue-seu-nome.fifo`.
+7. O processamento do arquivo é registrado no DynamoDB.
+8. Se houver erro de schema ou JSON inválido, uma notificação é enviada ao SNS.
 
-## Passo a passo tecnico
+## Passo a passo técnico
 
-### 1. Criar a role IAM da Lambda de validacao de arquivos
+### 1. Criar a role IAM da Lambda de validação de arquivos
 
 Criar a role:
 
 - `lambda-s3-validation-role-seu-nome`
 
-Com a politica gerenciada:
+Com a política gerenciada:
 
 - `AWSLambdaBasicExecutionRole`
 
-Depois, complementar com permissoes especificas para:
+Depois, complementar com permissões específicas para:
 
 - leitura do S3
 - leitura da fila SQS de arquivos
 - escrita no DynamoDB
-- publicacao no SNS
+- publicação no SNS
 - envio de mensagens para a fila FIFO do Dia 1
 
 ### 2. Criar a DLQ e a fila SQS Standard de arquivos
@@ -109,21 +109,21 @@ Configuracoes importantes:
 - DLQ habilitada
 - `Maximum receives = 3`
 
-### 3. Criar a tabela DynamoDB de historico
+### 3. Criar a tabela DynamoDB de histórico
 
 Criar a tabela:
 
-- `controle-arquivos-historico-seu-nome`
+- `controle-arquivos-histórico-seu-nome`
 
 Com chave primaria:
 
 - `nomeArquivo` do tipo `String`
 
-Essa tabela sera usada para registrar o status final de validacao de cada arquivo.
+Essa tabela será usada para registrar o status final de validação de cada arquivo.
 
-### 4. Criar o topico SNS de notificacao de erro
+### 4. Criar o tópico SNS de notificação de erro
 
-Criar o topico:
+Criar o tópico:
 
 - `notificacao-erro-arquivos-seu-nome`
 
@@ -131,11 +131,11 @@ Depois criar ao menos uma subscription, por exemplo:
 
 - protocolo `Email`
 
-Assim, erros de validacao de arquivos podem gerar alerta imediato.
+Assim, erros de validação de arquivos podem gerar alerta imediato.
 
-### 5. Criar a Lambda de validacao de arquivos
+### 5. Criar a Lambda de validação de arquivos
 
-Criar a funcao:
+Criar a função:
 
 - `validacao-s3-arquivos-lambda-seu-nome`
 
@@ -196,7 +196,7 @@ def lambda_handler(event, context):
                 file_content = s3_object["Body"].read().decode("utf-8")
 
                 status_validacao_arquivo = "ERRO_VALIDACAO_ARQUIVO"
-                detalhes_erro_arquivo = "Conteudo do arquivo nao e JSON valido."
+                detalhes_erro_arquivo = "Conteúdo do arquivo não é JSON válido."
 
                 try:
                     arquivo_data = json.loads(file_content)
@@ -208,7 +208,7 @@ def lambda_handler(event, context):
 
                         for pedido_item in arquivo_data["lista_pedidos"]:
                             if "id_pedido_arquivo" not in pedido_item or "id_cliente_arquivo" not in pedido_item:
-                                print(f"Pedido invalido no arquivo {object_key}: {pedido_item}. Campos obrigatorios ausentes.")
+                                print(f"Pedido inválido no arquivo {object_key}: {pedido_item}. Campos obrigatórios ausentes.")
                                 continue
 
                             pedido_formatado = {
@@ -231,11 +231,11 @@ def lambda_handler(event, context):
 
                             print(f"Pedido {pedido_formatado['pedidoId']} do arquivo {object_key} enviado para SQS FIFO Pedidos.")
                     else:
-                        detalhes_erro_arquivo = "Schema do arquivo invalido. Esperada chave 'lista_pedidos' contendo uma lista."
+                        detalhes_erro_arquivo = "Schema do arquivo inválido. Esperada a chave 'lista_pedidos' contendo uma lista."
                         print(detalhes_erro_arquivo)
 
                 except json.JSONDecodeError as je:
-                    print(f"Arquivo {object_key} nao e um JSON valido: {str(je)}")
+                    print(f"Arquivo {object_key} não é um JSON válido: {str(je)}")
 
                 item_to_put = {
                     "nomeArquivo": object_key,
@@ -250,7 +250,7 @@ def lambda_handler(event, context):
                 table.put_item(Item=item_to_put)
 
                 if status_validacao_arquivo != "ARQUIVO_VALIDADO":
-                    message_sns = f"Erro de validacao no ARQUIVO: {object_key} do bucket {bucket_name}.\n"
+                    message_sns = f"Erro de validação no ARQUIVO: {object_key} do bucket {bucket_name}.\n"
                     message_sns += f"Status: {status_validacao_arquivo}\n"
                     if detalhes_erro_arquivo:
                         message_sns += f"Detalhes: {detalhes_erro_arquivo}"
@@ -264,9 +264,9 @@ def lambda_handler(event, context):
                     print(f"Notificacao de erro de ARQUIVO enviada para SNS para {object_key}")
 
         except Exception as e:
-            err_msg = f"Erro critico ao processar SQS record: {str(e)}"
+            err_msg = f"Erro crítico ao processar SQS record: {str(e)}"
             if object_key:
-                err_msg = f"Erro critico ao processar SQS record para arquivo {object_key}: {str(e)}"
+                err_msg = f"Erro crítico ao processar SQS record para arquivo {object_key}: {str(e)}"
             print(err_msg)
             sns.publish(TopicArn=SNS_TOPIC_ARN, Message=err_msg, Subject="Erro Critico no Processamento de Arquivo S3")
             raise e
@@ -274,7 +274,7 @@ def lambda_handler(event, context):
     return {"statusCode": 200, "body": "Processamento de arquivos S3 e envio de pedidos concluido"}
 ```
 
-### 6. Adicionar permissao inicial para o trigger SQS
+### 6. Adicionar permissão inicial para o trigger SQS
 
 Antes de criar o trigger da Lambda, adicionar uma inline policy na role para leitura da fila:
 
@@ -307,7 +307,7 @@ Se ocorrer erro de timeout entre fila e Lambda, ajustar:
 
 - `Visibility timeout` da fila para `60 segundos`
 
-### 8. Criar o bucket S3 e configurar a notificacao
+### 8. Criar o bucket S3 e configurar a notificação
 
 Criar o bucket:
 
@@ -317,13 +317,13 @@ Depois configurar em `Properties > Event notifications`:
 
 - nome do evento `s3-json-upload-to-sqs-seu-nome`
 - sufixo `.json`
-- tipo `All object create events`
+- tipo `All object creaté events`
 - destino `SQS queue`
 - fila `s3-arquivos-json-queue-seu-nome`
 
-Se o S3 nao conseguir validar o destino, ajustar a policy da fila para permitir `SQS:SendMessage` do servico S3.
+Se o S3 não conseguir validar o destino, ajustar a policy da fila para permitir `SQS:SendMessage` do servico S3.
 
-### 9. Atualizar as permissoes completas da role da Lambda
+### 9. Atualizar as permissões completas da role da Lambda
 
 Adicionar uma inline policy com acesso aos recursos do fluxo:
 
@@ -339,7 +339,7 @@ Adicionar uma inline policy com acesso aos recursos do fluxo:
     {
       "Effect": "Allow",
       "Action": "dynamodb:PutItem",
-      "Resource": "COLE_AQUI_O_ARN_DA_SUA_TABELA_controle-arquivos-historico-seu-nome"
+      "Resource": "COLE_AQUI_O_ARN_DA_SUA_TABELA_controle-arquivos-histórico-seu-nome"
     },
     {
       "Effect": "Allow",
@@ -357,7 +357,7 @@ Adicionar uma inline policy com acesso aos recursos do fluxo:
 
 ### 10. Preparar os arquivos de teste
 
-Arquivo valido `arquivo_com_pedidos.json`:
+Arquivo válido `arquivo_com_pedidos.json`:
 
 ```json
 {
@@ -391,7 +391,7 @@ Arquivo valido `arquivo_com_pedidos.json`:
 }
 ```
 
-Arquivo invalido `arquivo_schema_invalido.json`:
+Arquivo inválido `arquivo_schema_invalido.json`:
 
 ```json
 {
@@ -405,11 +405,11 @@ Ao subir `arquivo_com_pedidos.json`, o resultado esperado e:
 
 - a fila `s3-arquivos-json-queue-seu-nome` recebe e encaminha a mensagem
 - a Lambda processa o arquivo e envia `S3P001` e `S3P002` para a fila FIFO do Dia 1
-- o pedido invalido e ignorado por falta de campos obrigatorios
+- o pedido inválido é ignorado por falta de campos obrigatórios
 - o DynamoDB registra o arquivo com `statusValidacao = ARQUIVO_VALIDADO`
 - nenhuma notificacao SNS e enviada
 
-Ao subir `arquivo_schema_invalido.json`, o resultado esperado e:
+Ao subir `arquivo_schema_invalido.json`, o resultado esperado é:
 
 - a Lambda detecta erro de schema
 - o DynamoDB registra `statusValidacao = ERRO_VALIDACAO_ARQUIVO`
@@ -418,145 +418,145 @@ Ao subir `arquivo_schema_invalido.json`, o resultado esperado e:
 
 ## Aprendizados consolidados
 
-Este laboratorio mostra como integrar uma segunda fonte de entrada ao mesmo pipeline principal sem duplicar a logica central de negocio. Em vez de criar um fluxo paralelo isolado, os pedidos extraidos do S3 sao normalizados e reaproveitam a mesma fila FIFO e a mesma cadeia de validacao iniciada no Dia 1.
+Este laboratório mostra como integrar uma segunda fonte de entrada ao mesmo pipeline principal sem duplicar a lógica central de negócio. Em vez de criar um fluxo paralelo isolado, os pedidos extraídos do S3 são normalizados e reaproveitam a mesma fila FIFO e a mesma cadeia de validação iniciada no Dia 1.
 
-Os principais conceitos reforcados foram:
+Os principais conceitos reforçados foram:
 
 - **S3 como origem de eventos em lote**
 - **SQS Standard para desacoplamento do processamento de arquivos**
-- **Lambda para validacao, extracao e transformacao**
-- **DynamoDB para historico e rastreabilidade**
-- **SNS para notificacao de erros de arquivo**
-- **Integracao entre multiplas fontes de entrada e um pipeline unico**
+- **Lambda para validação, extracao e transformação**
+- **DynamoDB para histórico e rastreabilidade**
+- **SNS para notificação de erros de arquivo**
+- **Integração entre múltiplas fontes de entrada e um pipeline unico**
 
 ## Limpeza dos recursos
 
-Ao final do laboratorio, remover:
+Ao final do laboratório, remover:
 
 - bucket S3 criado para os arquivos
-- notificacoes de evento do bucket
+- notificações de evento do bucket
 - fila principal SQS e sua DLQ
-- Lambda de validacao de arquivos
+- Lambda de validação de arquivos
 - tabela DynamoDB
-- topico SNS e subscriptions
-- policies inline e role IAM criadas para o laboratorio
+- tópico SNS e subscriptions
+- policies inline e role IAM criadas para o laboratório
 
 ## Evidencias visuais em ordem das orientacoes
 
 ### Fase 1 - IAM e preparacao inicial
-Criacao da role para a Lambda de validacao de arquivos do S3.
+Criação da role para a Lambda de validação de arquivos do S3.
 ![Evidencia 01](./images/step-01.png)
-Selecao do caso de uso Lambda na role IAM.
+Seleção do caso de uso Lambda na role IAM.
 ![Evidencia 02](./images/step-02.png)
-Associacao da policy basica de execucao da Lambda.
+Associação da policy básica de execução da Lambda.
 ![Evidencia 03](./images/step-03.png)
-Revisao final da role `lambda-s3-validation-role-seu-nome`.
+Revisão final da role `lambda-s3-validation-role-seu-nome`.
 ![Evidencia 04](./images/step-04.png)
 
 ### Fase 2 - Filas SQS Standard para arquivos
-Criacao da DLQ `s3-arquivos-json-dlq-seu-nome`.
+Criação da DLQ `s3-arquivos-json-dlq-seu-nome`.
 ![Evidencia 05](./images/step-05.png)
-Confirmacao da fila morta criada com sucesso.
+Confirmação da fila morta criada com sucesso.
 ![Evidencia 06](./images/step-06.png)
-Criacao da fila principal `s3-arquivos-json-queue-seu-nome`.
+Criação da fila principal `s3-arquivos-json-queue-seu-nome`.
 ![Evidencia 07](./images/step-07.png)
-Configuracao da DLQ e `Maximum receives = 3`.
+Configuração da DLQ e `Maximum receives = 3`.
 ![Evidencia 08](./images/step-08.png)
-Revisao da fila principal de arquivos JSON.
+Revisão da fila principal de arquivos JSON.
 ![Evidencia 09](./images/step-09.png)
 
 ### Fase 3 - DynamoDB e SNS
-Criacao da tabela `controle-arquivos-historico-seu-nome`.
+Criação da tabela `controle-arquivos-histórico-seu-nome`.
 ![Evidencia 10](./images/step-10.png)
-Definicao da chave `nomeArquivo`.
+Definição da chave `nomeArquivo`.
 ![Evidencia 11](./images/step-11.png)
-Conferencia do ARN da tabela DynamoDB.
+Conferência do ARN da tabela DynamoDB.
 ![Evidencia 12](./images/step-12.png)
-Criacao do topico SNS de erro de arquivos.
+Criação do tópico SNS de erro de arquivos.
 ![Evidencia 13](./images/step-13.png)
-Definicao do nome `notificacao-erro-arquivos-seu-nome`.
+Definição do nome `notificacao-erro-arquivos-seu-nome`.
 ![Evidencia 14](./images/step-14.png)
-Criacao da subscription de e-mail no SNS.
+Criação da subscription de e-mail no SNS.
 ![Evidencia 15](./images/step-15.png)
-Confirmacao da subscription do topico.
+Confirmação da subscription do tópico.
 ![Evidencia 16](./images/step-16.png)
 
-### Fase 4 - Lambda de validacao de arquivos
-Criacao da funcao `validacao-s3-arquivos-lambda-seu-nome`.
+### Fase 4 - Lambda de validação de arquivos
+Criação da função `validacao-s3-arquivos-lambda-seu-nome`.
 ![Evidencia 17](./images/step-17.png)
-Selecao do runtime Python 3.12.
+Seleção do runtime Python 3.12.
 ![Evidencia 18](./images/step-18.png)
-Escolha da role da Lambda criada para o laboratorio.
+Escolha da role da Lambda criada para o laboratório.
 ![Evidencia 19](./images/step-19.png)
-Edicao do codigo da funcao de validacao e extracao.
+Edicao do codigo da função de validação e extracao.
 ![Evidencia 20](./images/step-20.png)
 Deploy do codigo da Lambda.
 ![Evidencia 21](./images/step-21.png)
-Configuracao das variaveis de ambiente.
+Configuração das variaveis de ambiente.
 ![Evidencia 22](./images/step-22.png)
-Definicao de `DYNAMODB_TABLE_NAME`, `SNS_TOPIC_ARN` e `SQS_FIFO_PEDIDOS_URL`.
+Definição de `DYNAMODB_TABLE_NAME`, `SNS_TOPIC_ARN` e `SQS_FIFO_PEDIDOS_URL`.
 ![Evidencia 23](./images/step-23.png)
-Configuracao do timeout da funcao.
+Configuração do timeout da função.
 ![Evidencia 24](./images/step-24.png)
 
-### Fase 5 - Permissao inicial e trigger SQS
-Criacao da policy inline para leitura da fila de arquivos.
+### Fase 5 - Permissão inicial e trigger SQS
+Criação da policy inline para leitura da fila de arquivos.
 ![Evidencia 25](./images/step-25.png)
-JSON com permissoes `ReceiveMessage`, `DeleteMessage` e `GetQueueAttributes`.
+JSON com permissões `ReceiveMessage`, `DeleteMessage` e `GetQueueAttributes`.
 ![Evidencia 26](./images/step-26.png)
 Policy criada para liberar o trigger.
 ![Evidencia 27](./images/step-27.png)
-Adicao do trigger SQS na Lambda.
+Adição do trigger SQS na Lambda.
 ![Evidencia 28](./images/step-28.png)
-Selecao da fila `s3-arquivos-json-queue-seu-nome`.
+Seleção da fila `s3-arquivos-json-queue-seu-nome`.
 ![Evidencia 29](./images/step-29.png)
 Ajuste do `Batch size = 1`.
 ![Evidencia 30](./images/step-30.png)
-Revisao do erro de timeout entre fila e Lambda.
+Revisão do erro de timeout entre fila e Lambda.
 ![Evidencia 31](./images/step-31.png)
 Ajuste do `Visibility timeout` para 60 segundos.
 ![Evidencia 32](./images/step-32.png)
-Trigger configurado corretamente apos o ajuste.
+Trigger configurado corretamente após o ajuste.
 ![Evidencia 33](./images/step-33.png)
 
-### Fase 6 - Bucket S3 e notificacoes para SQS
-Criacao do bucket `datalake-arquivos-seu-nome`.
+### Fase 6 - Bucket S3 e notificações para SQS
+Criação do bucket `datalake-arquivos-seu-nome`.
 ![Evidencia 34](./images/step-34.png)
-Configuracao do bucket com bloqueio de acesso publico.
+Configuração do bucket com bloqueio de acesso público.
 ![Evidencia 35](./images/step-35.png)
-Conferencia do bucket criado.
+Conferência do bucket criado.
 ![Evidencia 36](./images/step-36.png)
 Edicao da queue policy para permitir `s3.amazonaws.com`.
 ![Evidencia 37](./images/step-37.png)
 JSON da policy vinculando bucket e fila SQS.
 ![Evidencia 38](./images/step-38.png)
-Criacao da notificacao de eventos do bucket.
+Criação da notificação de eventos do bucket.
 ![Evidencia 39](./images/step-39.png)
-Configuracao de sufixo `.json` e destino SQS.
+Configuração de sufixo `.json` e destino SQS.
 ![Evidencia 40](./images/step-40.png)
 Notificacao de evento criada com sucesso.
 ![Evidencia 41](./images/step-41.png)
 
 ### Fase 7 - Permissoes completas da role
-Criacao da policy final com acesso ao S3, DynamoDB, SNS e fila FIFO.
+Criação da policy final com acesso ao S3, DynamoDB, SNS e fila FIFO.
 ![Evidencia 42](./images/step-42.png)
-Definicao da permissao `s3:GetObject`.
+Definição da permissão `s3:GetObject`.
 ![Evidencia 43](./images/step-43.png)
-Definicao da permissao `dynamodb:PutItem`.
+Definição da permissão `dynamodb:PutItem`.
 ![Evidencia 44](./images/step-44.png)
-Definicao da permissao `sns:Publish`.
+Definição da permissão `sns:Publish`.
 ![Evidencia 45](./images/step-45.png)
-Definicao da permissao `sqs:SendMessage` para a fila FIFO do Dia 1.
+Definição da permissão `sqs:SendMessage` para a fila FIFO do Dia 1.
 ![Evidencia 46](./images/step-46.png)
 Policy final revisada e criada.
 ![Evidencia 47](./images/step-47.png)
 
-### Fase 8 - Testes com arquivos validos e invalidos
-Preparacao e upload do `arquivo_com_pedidos.json`.
+### Fase 8 - Testes com arquivos válidos e inválidos
+Preparação e upload do `arquivo_com_pedidos.json`.
 ![Evidencia 48](./images/step-48.png)
-Validacao dos logs da Lambda apos o upload do arquivo valido.
+Validação dos logs da Lambda após o upload do arquivo válido.
 ![Evidencia 49](./images/step-49.png)
-Conferencia do item gravado no DynamoDB.
+Conferência do item gravado no DynamoDB.
 ![Evidencia 50](./images/step-50.png)
-Verificacao final do fluxo completo e integracao com a fila FIFO de pedidos.
+Verificacao final do fluxo completo e integração com a fila FIFO de pedidos.
 ![Evidencia 51](./images/step-51.png)

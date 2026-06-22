@@ -1,30 +1,30 @@
 # Dia 4 - Fluxos Adicionais de Pedidos e DLQs na AWS
 
-Este laboratorio documenta a etapa final da arquitetura, expandindo o sistema para lidar com **cancelamento de pedidos**, **alteracao de pedidos** e **teste pratico de DLQs**, usando **Amazon EventBridge**, **Amazon SQS Standard**, **AWS Lambda** e a **tabela principal no DynamoDB** criada no Dia 3. A aula tambem consolida a visao completa da arquitetura integrada ao longo da semana.
+Este laboratório documenta a etapa final da arquitetura, expandindo o sistema para lidar com **cancelamento de pedidos**, **alteração de pedidos** e **teste prático de DLQs**, usando **Amazon EventBridge**, **Amazon SQS Standard**, **AWS Lambda** e a **tabela principal no DynamoDB** criada no Dia 3. A aula também consolida a visão completa da arquitetura integrada ao longo da semana.
 
 ## Por que este conhecimento e importante
 
-Sistemas reais nao tratam apenas criacao de pedidos. Em algum momento, pedidos precisam ser alterados, cancelados ou reprocessados apos falhas. O Dia 4 traz exatamente esse realismo: operacoes adicionais no ciclo de vida do pedido, novas regras de roteamento e validacao do comportamento das DLQs em um fluxo orientado a eventos.
+Sistemas reais não tratam apenas criação de pedidos. Em algum momento, pedidos precisam ser alterados, cancelados ou reprocessados após falhas. O Dia 4 traz exatamente esse realismo: operações adicionais no ciclo de vida do pedido, novas regras de roteamento e validação do comportamento das DLQs em um fluxo orientado a eventos.
 
-Os ganhos praticos dessa etapa sao:
+Os ganhos práticos dessa etapa são:
 
-- **Expansao funcional do ciclo de vida do pedido**
-- **Reaproveitamento da arquitetura existente** com novas operacoes
+- **Expansão funcional do ciclo de vida do pedido**
+- **Reaproveitamento da arquitetura existente** com novas operações
 - **Tratamento isolado por tipo de evento**
-- **Uso pratico de DLQs** para resiliencia e diagnostico
-- **Visao consolidada da arquitetura completa**
+- **Uso prático de DLQs** para resiliência e diagnóstico
+- **Visão consolidada da arquitetura completa**
 
-## Objetivo do laboratorio
+## Objetivo do laboratório
 
 Construir um fluxo em que:
 
 - eventos `CancelarPedido` e `AlterarPedido` sejam publicados no EventBridge
 - regras dedicadas encaminhem cada tipo de evento para sua fila SQS
-- Lambdas especificas atualizem o pedido existente no DynamoDB
+- Lambdas específicas atualizem o pedido existente no DynamoDB
 - as DLQs capturem falhas repetidas no processamento
 - a arquitetura final demonstre um sistema orientado a eventos mais completo
 
-## Servicos utilizados
+## Serviços utilizados
 
 - Amazon EventBridge
 - Amazon SQS Standard
@@ -36,7 +36,7 @@ Construir um fluxo em que:
 
 ## Arquitetura implementada
 
-![Arquitetura do laboratorio](./images/arquitetura-dia-4.png)
+![Arquitetura do laboratório](./images/arquitetura-dia-4.png)
 
 ```mermaid
 flowchart LR
@@ -52,7 +52,7 @@ flowchart LR
     G --> J
 ```
 
-## Recursos criados no laboratorio
+## Recursos criados no laboratório
 
 - `lambda-altera-cancela-role-seu-nome`
 - `cancela-pedido-dlq-seu-nome`
@@ -68,12 +68,12 @@ flowchart LR
 
 1. Um evento `CancelarPedido` ou `AlterarPedido` e publicado no EventBridge.
 2. A regra correspondente direciona o evento para sua fila SQS dedicada.
-3. A Lambda especifica consome a fila.
+3. A Lambda específica consome a fila.
 4. No cancelamento, o pedido recebe `statusPedido = CANCELADO`.
-5. Na alteracao, o pedido recebe novos itens e `statusPedido = ALTERADO`.
+5. Na alteração, o pedido recebe novos itens e `statusPedido = ALTERADO`.
 6. Se houver falhas repetidas, a mensagem vai para a DLQ correspondente.
 
-## Passo a passo tecnico
+## Passo a passo técnico
 
 ### 1. Criar a role IAM compartilhada das novas Lambdas
 
@@ -81,13 +81,13 @@ Criar a role:
 
 - `lambda-altera-cancela-role-seu-nome`
 
-Com a politica gerenciada:
+Com a política gerenciada:
 
 - `AWSLambdaBasicExecutionRole`
 
-Depois, complementar com permissoes de:
+Depois, complementar com permissões de:
 
-- leitura das filas SQS de cancelamento e alteracao
+- leitura das filas SQS de cancelamento e alteração
 - `dynamodb:UpdateItem`
 - `dynamodb:GetItem`
 
@@ -107,7 +107,7 @@ Configuracoes importantes da fila principal:
 - DLQ habilitada
 - `Maximum receives = 3`
 
-Permissao inicial para o trigger da fila:
+Permissão inicial para o trigger da fila:
 
 ```json
 {
@@ -150,14 +150,14 @@ def lambda_handler(event, context):
             print(f"Evento EventBridge recebido via SQS: {eventbridge_event}")
 
             if "detail" not in eventbridge_event:
-                print(f"Erro: Campo 'detail' nao encontrado no evento: {eventbridge_event}")
+                print(f"Erro: Campo 'detail' não encontrado no evento: {eventbridge_event}")
                 continue
 
             pedido_data = eventbridge_event["detail"]
             pedido_id = pedido_data.get("pedidoId")
 
             if not pedido_id:
-                print(f"Erro: pedidoId nao encontrado nos detalhes do evento: {pedido_data}")
+                print(f"Erro: pedidoId não encontrado nos detalhes do evento: {pedido_data}")
                 continue
 
             print(f"Processando cancelamento para pedido: {pedido_id}")
@@ -193,7 +193,7 @@ Regra do EventBridge:
 }
 ```
 
-### 3. Criar o fluxo de alteracao
+### 3. Criar o fluxo de alteração
 
 Recursos:
 
@@ -202,7 +202,7 @@ Recursos:
 - `altera-pedido-lambda-seu-nome`
 - `altera-pedido-rule-seu-nome`
 
-Permissao inicial para o trigger da fila:
+Permissão inicial para o trigger da fila:
 
 ```json
 {
@@ -223,7 +223,7 @@ Permissao inicial para o trigger da fila:
 }
 ```
 
-Codigo da Lambda de alteracao:
+Codigo da Lambda de alteração:
 
 ```python
 import json
@@ -236,7 +236,7 @@ dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(DYNAMODB_TABLE_NAME)
 
 def lambda_handler(event, context):
-    print(f"Evento SQS (alteracao) recebido: {event}")
+    print(f"Evento SQS (alteração) recebido: {event}")
 
     for record in event["Records"]:
         pedido_id = None
@@ -245,7 +245,7 @@ def lambda_handler(event, context):
             print(f"Evento EventBridge recebido via SQS: {eventbridge_event}")
 
             if "detail" not in eventbridge_event:
-                print(f"Erro: Campo 'detail' nao encontrado no evento: {eventbridge_event}")
+                print(f"Erro: Campo 'detail' não encontrado no evento: {eventbridge_event}")
                 continue
 
             pedido_data = eventbridge_event["detail"]
@@ -253,10 +253,10 @@ def lambda_handler(event, context):
             novos_itens = pedido_data.get("novosItens")
 
             if not pedido_id or novos_itens is None:
-                print(f"Erro: pedidoId ou novosItens nao encontrados nos detalhes do evento: {pedido_data}")
+                print(f"Erro: pedidoId ou novosItens não encontrados nos detalhes do evento: {pedido_data}")
                 continue
 
-            print(f"Processando alteracao para pedido: {pedido_id} com novos itens: {novos_itens}")
+            print(f"Processando alteração para pedido: {pedido_id} com novos itens: {novos_itens}")
 
             response = table.update_item(
                 Key={"pedidoId": str(pedido_id)},
@@ -275,10 +275,10 @@ def lambda_handler(event, context):
             print(f"Erro de JSON ao processar registro {record['messageId']}: {str(je)}")
             raise je
         except Exception as e:
-            print(f"Erro geral ao processar alteracao {record['messageId']} (pedidoId: {pedido_id}): {str(e)}")
+            print(f"Erro geral ao processar alteração {record['messageId']} (pedidoId: {pedido_id}): {str(e)}")
             raise e
 
-    return {"statusCode": 200, "body": "Processamento de alteracoes concluido"}
+    return {"statusCode": 200, "body": "Processamento de alterações concluido"}
 ```
 
 Regra do EventBridge:
@@ -290,7 +290,7 @@ Regra do EventBridge:
 }
 ```
 
-### 4. Atualizar permissoes da role para o DynamoDB
+### 4. Atualizar permissões da role para o DynamoDB
 
 Adicionar policy com:
 
@@ -310,7 +310,7 @@ Adicionar policy com:
 }
 ```
 
-### 5. Testar cancelamento e alteracao
+### 5. Testar cancelamento e alteração
 
 Evento de cancelamento:
 
@@ -325,7 +325,7 @@ Com:
 - `Event source = lab.aula4.operacoes`
 - `Detail type = CancelarPedido`
 
-Evento de alteracao:
+Evento de alteração:
 
 ```json
 {
@@ -345,9 +345,9 @@ Com:
 Resultados esperados:
 
 - pedido passa para `CANCELADO` no fluxo de cancelamento
-- pedido passa para `ALTERADO` e recebe novos itens no fluxo de alteracao
+- pedido passa para `ALTERADO` e recebe novos itens no fluxo de alteração
 
-### 6. Testar uma DLQ na pratica
+### 6. Testar uma DLQ na prática
 
 Para validar a DLQ do fluxo principal:
 
@@ -358,26 +358,26 @@ Para validar a DLQ do fluxo principal:
 5. confirmar a mensagem na `pedidos-pendentes-dlq-seu-nome`
 6. remover a falha forcada e fazer novo deploy
 
-Esse teste mostra na pratica como a mensagem deixa a fila principal apos exceder o numero maximo de tentativas.
+Esse teste mostra na prática como a mensagem deixa a fila principal após exceder o número máximo de tentativas.
 
 ## Aprendizados consolidados
 
-Este laboratorio fecha a semana adicionando operacoes reais de ciclo de vida do pedido e reforcando a resiliência do desenho. A arquitetura passa a lidar nao apenas com criacao e processamento inicial, mas tambem com manutencao do estado do pedido e diagnostico de falhas.
+Este laboratório fecha a semana adicionando operações reais de ciclo de vida do pedido e reforçando a resiliência do desenho. A arquitetura passa a lidar não apenas com criação e processamento inicial, mas também com manutenção do estado do pedido e diagnóstico de falhas.
 
-Os principais conceitos reforcados foram:
+Os principais conceitos reforçados foram:
 
 - **Novos tipos de eventos no EventBridge**
 - **Filas e Lambdas especializadas por operacao**
 - **Atualizacao incremental do estado no DynamoDB**
-- **DLQs como mecanismo de seguranca operacional**
-- **Visao integrada da arquitetura completa**
+- **DLQs como mecanismo de segurança operacional**
+- **Visão integrada da arquitetura completa**
 
 ## Limpeza dos recursos
 
-Ao final do laboratorio, remover:
+Ao final do laboratório, remover:
 
 - regras `cancela-pedido-rule-seu-nome` e `altera-pedido-rule-seu-nome`
-- filas principais e DLQs de cancelamento e alteracao
+- filas principais e DLQs de cancelamento e alteração
 - Lambdas `cancela-pedido-lambda-seu-nome` e `altera-pedido-lambda-seu-nome`
 - policies inline adicionadas a role
 - restaurar qualquer Lambda alterada no teste de DLQ
@@ -385,73 +385,73 @@ Ao final do laboratorio, remover:
 ## Evidencias visuais em ordem das orientacoes
 
 ### Fase 1 - Role compartilhada das Lambdas
-Criacao da role `lambda-altera-cancela-role-seu-nome`.
+Criação da role `lambda-altera-cancela-role-seu-nome`.
 ![Evidencia 01](./images/step-01.png)
-Selecao do caso de uso Lambda na IAM Role.
+Seleção do caso de uso Lambda na IAM Role.
 ![Evidencia 02](./images/step-02.png)
-Adicao da policy basica de execucao.
+Adição da policy básica de execução.
 ![Evidencia 03](./images/step-03.png)
 
 ### Fase 2 - Filas e Lambda de cancelamento
-Criacao da DLQ `cancela-pedido-dlq-seu-nome`.
+Criação da DLQ `cancela-pedido-dlq-seu-nome`.
 ![Evidencia 04](./images/step-04.png)
-Criacao da fila principal `cancela-pedido-queue-seu-nome`.
+Criação da fila principal `cancela-pedido-queue-seu-nome`.
 ![Evidencia 05](./images/step-05.png)
-Configuracao da DLQ e do visibility timeout.
+Configuração da DLQ e do visibility timeout.
 ![Evidencia 06](./images/step-06.png)
-Criacao da policy de leitura da fila de cancelamento.
+Criação da policy de leitura da fila de cancelamento.
 ![Evidencia 07](./images/step-07.png)
-Criacao da Lambda `cancela-pedido-lambda-seu-nome`.
+Criação da Lambda `cancela-pedido-lambda-seu-nome`.
 ![Evidencia 08](./images/step-08.png)
 Edicao do codigo da Lambda de cancelamento.
 ![Evidencia 09](./images/step-09.png)
-Configuracao de variavel de ambiente e timeout.
+Configuração de variável de ambiente e timeout.
 ![Evidencia 10](./images/step-10.png)
-Adicao do trigger SQS da fila de cancelamento.
+Adição do trigger SQS da fila de cancelamento.
 ![Evidencia 11](./images/step-11.png)
-Criacao da regra `cancela-pedido-rule-seu-nome` no EventBridge.
+Criação da regra `cancela-pedido-rule-seu-nome` no EventBridge.
 ![Evidencia 12](./images/step-12.png)
 
-### Fase 3 - Filas e Lambda de alteracao
-Criacao da DLQ `altera-pedido-dlq-seu-nome`.
+### Fase 3 - Filas e Lambda de alteração
+Criação da DLQ `altera-pedido-dlq-seu-nome`.
 ![Evidencia 13](./images/step-13.png)
-Criacao da fila principal `altera-pedido-queue-seu-nome`.
+Criação da fila principal `altera-pedido-queue-seu-nome`.
 ![Evidencia 14](./images/step-14.png)
-Configuracao da policy de leitura da fila de alteracao.
+Configuração da policy de leitura da fila de alteração.
 ![Evidencia 15](./images/step-15.png)
-Criacao da Lambda `altera-pedido-lambda-seu-nome`.
+Criação da Lambda `altera-pedido-lambda-seu-nome`.
 ![Evidencia 16](./images/step-16.png)
-Edicao do codigo da Lambda de alteracao.
+Edicao do codigo da Lambda de alteração.
 ![Evidencia 17](./images/step-17.png)
-Configuracao de variavel de ambiente e timeout.
+Configuração de variável de ambiente e timeout.
 ![Evidencia 18](./images/step-18.png)
-Adicao do trigger SQS da fila de alteracao.
+Adição do trigger SQS da fila de alteração.
 ![Evidencia 19](./images/step-19.png)
-Criacao da regra `altera-pedido-rule-seu-nome` no EventBridge.
+Criação da regra `altera-pedido-rule-seu-nome` no EventBridge.
 ![Evidencia 20](./images/step-20.png)
 
 ### Fase 4 - Permissoes finais e testes funcionais
-Atualizacao da role com permissoes de `UpdateItem` e `GetItem`.
+Atualização da role com permissões de `UpdateItem` e `GetItem`.
 ![Evidencia 21](./images/step-21.png)
 Teste de envio do evento `CancelarPedido`.
 ![Evidencia 22](./images/step-22.png)
-Validacao do pedido cancelado no DynamoDB.
+Validação do pedido cancelado no DynamoDB.
 ![Evidencia 23](./images/step-23.png)
 Teste de envio do evento `AlterarPedido`.
 ![Evidencia 24](./images/step-24.png)
-Validacao do pedido alterado no DynamoDB.
+Validação do pedido alterado no DynamoDB.
 ![Evidencia 25](./images/step-25.png)
 
 ### Fase 5 - Teste de DLQ
-Insercao de erro forcado na Lambda de processamento.
+Inserção de erro forçado na Lambda de processamento.
 ![Evidencia 26](./images/step-26.png)
 Reenvio de pedido para disparar falhas repetidas.
 ![Evidencia 27](./images/step-27.png)
-Observacao da fila principal durante as tentativas.
+Observação da fila principal durante as tentativas.
 ![Evidencia 28](./images/step-28.png)
-Confirmacao da mensagem na DLQ.
+Confirmação da mensagem na DLQ.
 ![Evidencia 29](./images/step-29.png)
-Restauracao da Lambda apos o teste.
+Restauração da Lambda após o teste.
 ![Evidencia 30](./images/step-30.png)
-Fechamento da arquitetura e validacao final do Dia 4.
+Fechamento da arquitetura e validação final do Dia 4.
 ![Evidencia 31](./images/step-31.png)

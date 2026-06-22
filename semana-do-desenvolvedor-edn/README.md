@@ -1,50 +1,50 @@
 # Semana do Desenvolvedor EDN
 
-Esta pasta reune os laboratorios da **Semana do Desenvolvedor AWS** da **Escola da Nuvem**, organizados dentro do repositorio central [Hands_On_AWS_Dev](../). A proposta da semana foi construir, na pratica, uma **arquitetura orientada a eventos** para processamento de pedidos e arquivos na AWS.
+Esta pasta reúne os laboratórios da **Semana do Desenvolvedor AWS** da **Escola da Nuvem**, organizados dentro do repositório central [Hands_On_AWS_Dev](../). A proposta da semana foi construir, na prática, uma **arquitetura orientada a eventos** para processamento de pedidos e arquivos na AWS.
 
-## O que e a Semana do Desenvolvedor AWS
+## O que é a Semana do Desenvolvedor AWS
 
 Trata-se de um evento intensivo com:
 
-- **4 dias focados 100% na pratica**
-- Conteudo voltado para alunos do curso **AWS Developer Associate**
-- Uma proposta de construir um fluxo completo usando servicos AWS integrados
+- **4 dias focados 100% na prática**
+- Conteúdo voltado para alunos do curso **AWS Developer Associate**
+- Uma proposta de construir um fluxo completo usando serviços AWS integrados
 
-A promessa da semana foi clara: desenvolver uma arquitetura capaz de **receber, validar, processar e encaminhar pedidos e arquivos** com desacoplamento, resiliencia e escalabilidade.
+A promessa da semana foi clara: desenvolver uma arquitetura capaz de **receber, validar, processar e encaminhar pedidos e arquivos** com desacoplamento, resiliência e escalabilidade.
 
 ## O desafio da semana
 
 O projeto parte de um problema bem comum em sistemas modernos:
 
-- Uma empresa precisa gerenciar pedidos de forma eficiente e escalavel
+- Uma empresa precisa gerenciar pedidos de forma eficiente e escalável
 - esses pedidos podem chegar em **tempo real via API**
 - ou em **lotes de arquivos via Amazon S3**
 
 Para resolver isso, a semana foi estruturada em torno de uma arquitetura orientada a eventos, preparada para:
 
-- Receber dados de multiplas fontes
+- Receber dados de múltiplas fontes
 - Validar e processar pedidos
 - Desacoplar etapas com filas
 - Publicar eventos para novos consumidores
-- Permitir evolucao gradual do fluxo de negocio
+- Permitir evolução gradual do fluxo de negócio
 
 ## A arquitetura que vamos construir
 
-Ao longo dos 4 dias, a trilha monta um sistema com estas caracteristicas centrais:
+Ao longo dos 4 dias, a trilha monta um sistema com estas características centrais:
 
 - **Arquitetura orientada a eventos** como base do processamento
-- **Recebe, valida e processa** pedidos de multiplas fontes
-- **Desacoplamento, resiliencia e escalabilidade** com servicos AWS integrados
+- **Recebe, valida e processa** pedidos de múltiplas fontes
+- **Desacoplamento, resiliência e escalabilidade** com serviços AWS integrados
 
 No fim da semana, a arquitetura combina:
 
 - Entrada via **API REST**
-- Ingestao de arquivos via **Amazon S3**
-- Processamento assicrono com **Amazon SQS**
-- Validacoes e regras de negocio com **AWS Lambda**
+- Ingestão de arquivos via **Amazon S3**
+- Processamento assíncrono com **Amazon SQS**
+- Validações e regras de negócio com **AWS Lambda**
 - Roteamento e barramento de eventos com **Amazon EventBridge**
-- Notificacoes com **Amazon SNS**
-- Persistencia e rastreabilidade com **Amazon DynamoDB**
+- Notificações com **Amazon SNS**
+- Persistência e rastreabilidade com **Amazon DynamoDB**
 
 ### Arquitetura completa da semana
 
@@ -52,38 +52,38 @@ No fim da semana, a arquitetura combina:
 
 ## Resultado esperado ao final da semana
 
-Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
+Ao concluir a trilha, a ideia é ter uma arquitetura completa com:
 
-- **Ingestao multipla**
+- **Ingestão múltipla**
   API REST para pedidos em tempo real e S3 para processamento em lote
-- **Processamento assicrono**
+- **Processamento assíncrono**
   SQS para desacoplamento e EventBridge como barramento de eventos
-- **Pipeline de validacao**
+- **Pipeline de validação**
   Lambdas especializadas para cada etapa do fluxo
 - **Rastreabilidade**
   acompanhamento do estado dos pedidos e dos arquivos processados
 
 ## Estrutura da semana
 
-| Dia | Pasta | Tema principal | Foco tecnico |
+| Dia | Pasta | Tema principal | Foco técnico |
 | :--- | :--- | :--- | :--- |
-| Dia 1 | [dia-1-api-eventbridge](./dia-1-api-eventbridge) | Ingestao de pedidos via API e EventBridge | API Gateway, AWS Lambda, Amazon SQS FIFO, DLQ e Amazon EventBridge |
-| Dia 2 | [dia-2-s3-integracao](./dia-2-s3-integracao) | Ingestao de arquivos via S3 e rastreamento | Amazon S3, Amazon SQS Standard, AWS Lambda, Amazon DynamoDB e Amazon SNS |
-| Dia 3 | [dia-3-processamento-pedidos](./dia-3-processamento-pedidos) | Processamento central de pedidos e persistencia | Amazon EventBridge, Amazon SQS, AWS Lambda e Amazon DynamoDB |
-| Dia 4 | [dia-4-fluxos-dlq](./dia-4-fluxos-dlq) | Fluxos adicionais de pedidos e DLQs | Regras de negocio, EventBridge, AWS Lambda, Amazon SQS e dead-letter queues |
+| Dia 1 | [dia-1-api-eventbridge](./dia-1-api-eventbridge) | Ingestão de pedidos via API e EventBridge | API Gateway, AWS Lambda, Amazon SQS FIFO, DLQ e Amazon EventBridge |
+| Dia 2 | [dia-2-s3-integracao](./dia-2-s3-integracao) | Ingestão de arquivos via S3 e rastreamento | Amazon S3, Amazon SQS Standard, AWS Lambda, Amazon DynamoDB e Amazon SNS |
+| Dia 3 | [dia-3-processamento-pedidos](./dia-3-processamento-pedidos) | Processamento central de pedidos e persistência | Amazon EventBridge, Amazon SQS, AWS Lambda e Amazon DynamoDB |
+| Dia 4 | [dia-4-fluxos-dlq](./dia-4-fluxos-dlq) | Fluxos adicionais de pedidos e DLQs | Regras de negócio, EventBridge, AWS Lambda, Amazon SQS e dead-letter queues |
 
 ## Principais funcionalidades por dia
 
 ### Dia 1
 
-O primeiro laboratorio constroi a base de entrada em tempo real:
+O primeiro laboratório constroi a base de entrada em tempo real:
 
 ![Arquitetura do Dia 1](./dia-1-api-eventbridge/images/arquitetura-dia-1.png)
 
 - **API Gateway**
   endpoint funcional para receber pedidos
 - **AWS Lambda**
-  duas funcoes Lambda para validacao
+  duas funções Lambda para validação
 - **Amazon SQS**
   uma fila SQS FIFO para desacoplar o processamento
 - **Amazon EventBridge**
@@ -91,7 +91,7 @@ O primeiro laboratorio constroi a base de entrada em tempo real:
 
 ### Dia 2
 
-O segundo laboratorio adiciona a entrada por arquivos:
+O segundo laboratório adiciona a entrada por arquivos:
 
 ![Arquitetura do Dia 2](./dia-2-s3-integracao/images/arquitetura-dia-2.png)
 
@@ -100,11 +100,11 @@ O segundo laboratorio adiciona a entrada por arquivos:
 - **Amazon SQS**
   duas filas SQS Standard para desacoplar o processamento inicial dos arquivos
 - **AWS Lambda**
-  funcao para extrair pedidos e enviar para o pipeline principal
+  função para extrair pedidos e enviar para o pipeline principal
 - **Amazon DynamoDB**
-  tabela destinada ao historico de validacao de arquivos
+  tabela destinada ao histórico de validação de arquivos
 - **Amazon SNS**
-  topico para notificacoes de erro na validacao de arquivos
+  tópico para notificações de erro na validação de arquivos
 
 ### Dia 3
 
@@ -115,7 +115,7 @@ O terceiro dia concentra o processamento principal do pedido:
 - **Amazon EventBridge**
   roteamento de eventos de novos pedidos validados
 - **AWS Lambda**
-  execucao da logica central de processamento do pedido
+  execução da lógica central de processamento do pedido
 - **Amazon SQS**
   desacoplamento do processamento principal
 - **Amazon DynamoDB**
@@ -123,38 +123,38 @@ O terceiro dia concentra o processamento principal do pedido:
 
 ### Dia 4
 
-O quarto dia amplia os fluxos de negocio e reforca o tratamento de falhas:
+O quarto dia amplia os fluxos de negócio e reforça o tratamento de falhas:
 
 ![Arquitetura do Dia 4](./dia-4-fluxos-dlq/images/arquitetura-dia-4.png)
 
 - **Fluxos funcionais**
-  cancelamento e alteracao de pedidos
+  cancelamento e alteração de pedidos
 - **Amazon EventBridge**
   novas regras para roteamento dos eventos
 - **AWS Lambda**
-  duas novas funcoes Lambda para validacao
+  duas novas funções Lambda para validação
 - **Amazon SQS**
-  aprofundamento pratico no funcionamento e na importancia das DLQs
+  aprofundamento prático no funcionamento e na importância das DLQs
 
 ## Nosso roteiro diario
 
 Esta trilha foi organizada da seguinte forma:
 
 1. **Dia 1**
-   Ingestao de pedidos via API e EventBridge
+   Ingestão de pedidos via API e EventBridge
 2. **Dia 2**
-   Ingestao de arquivos via S3 e rastreamento
+   Ingestão de arquivos via S3 e rastreamento
 3. **Dia 3**
-   Processamento central de pedidos e persistencia
+   Processamento central de pedidos e persistência
 4. **Dia 4**
    Fluxos adicionais de pedidos e DLQs
 
-## Como esta pasta esta organizada
+## Como está pasta está organizada
 
 Cada subpasta desta trilha representa um dia da semana e deve conter:
 
-- `README.md` com o contexto e o passo a passo do laboratorio
-- pasta `images/` com as evidencias visuais
+- `README.md` com o contexto e o passo a passo do laboratório
+- pasta `images/` com as evidências visuais
 - arquitetura da etapa
-- servicos utilizados
-- secoes de validacao e limpeza dos recursos
+- serviços utilizados
+- seções de validação e limpeza dos recursos
