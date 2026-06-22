@@ -69,8 +69,8 @@ Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
 | :--- | :--- | :--- | :--- |
 | Dia 1 | [dia-1-api-eventbridge](./dia-1-api-eventbridge) | Ingestao de pedidos via API e EventBridge | API Gateway, AWS Lambda, Amazon SQS FIFO, DLQ e Amazon EventBridge |
 | Dia 2 | [dia-2-s3-integracao](./dia-2-s3-integracao) | Ingestao de arquivos via S3 e rastreamento | Amazon S3, Amazon SQS Standard, AWS Lambda, Amazon DynamoDB e Amazon SNS |
-| Dia 3 | [dia-3](./dia-3) | Processamento central de pedidos e persistencia | Amazon EventBridge, Amazon SQS, AWS Lambda e Amazon DynamoDB |
-| Dia 4 | [dia-4](./dia-4) | Fluxos adicionais de pedidos e DLQs | Regras de negocio, EventBridge, AWS Lambda, Amazon SQS e dead-letter queues |
+| Dia 3 | [dia-3-processamento-pedidos](./dia-3-processamento-pedidos) | Processamento central de pedidos e persistencia | Amazon EventBridge, Amazon SQS, AWS Lambda e Amazon DynamoDB |
+| Dia 4 | [dia-4-fluxos-dlq](./dia-4-fluxos-dlq) | Fluxos adicionais de pedidos e DLQs | Regras de negocio, EventBridge, AWS Lambda, Amazon SQS e dead-letter queues |
 
 ## Principais funcionalidades por dia
 
@@ -155,4 +155,5 @@ Cada subpasta desta trilha representa um dia da semana e deve conter:
 
 - **Dia 1** documentado com arquitetura, explicacao tecnica e evidencias
 - **Dia 2** documentado com arquitetura, explicacao tecnica e evidencias
-- **Dias 3 e 4** preparados para receber a documentacao completa no mesmo padrao
+- **Dia 3** documentado com arquitetura, explicacao tecnica e evidencias
+- **Dia 4** documentado com arquitetura, explicacao tecnica e evidencias
