@@ -54,7 +54,9 @@ No fim da semana, a arquitetura combina:
 
 Além desta documentação em Markdown, a trilha agora também possui uma interface frontend em:
 
-- [site/index.html](./site/index.html)
+- [Abrir frontend da Semana do Desenvolvedor EDN](https://ferfaoliver-ferreira.github.io/Hands_On_AWS_Dev/)
+
+Se o link ainda não abrir imediatamente, aguarde a publicação do GitHub Pages terminar após o próximo push no repositório.
 
 Nela, você encontra:
 
