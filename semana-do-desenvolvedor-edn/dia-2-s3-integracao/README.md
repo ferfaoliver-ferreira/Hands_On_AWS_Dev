@@ -8,11 +8,11 @@ Nem todo sistema recebe pedidos apenas em tempo real por API. Em muitos cenarios
 
 Os ganhos praticos deste desenho sao:
 
-- **multiplas fontes de entrada** para o mesmo pipeline de pedidos
-- **desacoplamento** com filas SQS no inicio do processamento
-- **rastreabilidade** do status de cada arquivo no DynamoDB
-- **tratamento de erros** com SNS e DLQ
-- **reaproveitamento do fluxo central** do Dia 1 usando a mesma fila FIFO de pedidos
+- **Multiplas fontes de entrada** para o mesmo pipeline de pedidos
+- **Desacoplamento** com filas SQS no inicio do processamento
+- **Rastreabilidade** do status de cada arquivo no DynamoDB
+- **Tratamento de erros** com SNS e DLQ
+- **Reaproveitamento do fluxo central** do Dia 1 usando a mesma fila FIFO de pedidos
 
 ## Objetivo do laboratorio
 
@@ -427,7 +427,7 @@ Os principais conceitos reforcados foram:
 - **Lambda para validacao, extracao e transformacao**
 - **DynamoDB para historico e rastreabilidade**
 - **SNS para notificacao de erros de arquivo**
-- **integracao entre multiplas fontes de entrada e um pipeline unico**
+- **Integracao entre multiplas fontes de entrada e um pipeline unico**
 
 ## Limpeza dos recursos
 

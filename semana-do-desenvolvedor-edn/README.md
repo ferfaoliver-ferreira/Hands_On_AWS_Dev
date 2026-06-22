@@ -7,8 +7,8 @@ Esta pasta reune os laboratorios da **Semana do Desenvolvedor AWS** da **Escola 
 Trata-se de um evento intensivo com:
 
 - **4 dias focados 100% na pratica**
-- conteudo voltado para alunos do curso **AWS Developer Associate**
-- uma proposta de construir um fluxo completo usando servicos AWS integrados
+- Conteudo voltado para alunos do curso **AWS Developer Associate**
+- Uma proposta de construir um fluxo completo usando servicos AWS integrados
 
 A promessa da semana foi clara: desenvolver uma arquitetura capaz de **receber, validar, processar e encaminhar pedidos e arquivos** com desacoplamento, resiliencia e escalabilidade.
 
@@ -16,17 +16,17 @@ A promessa da semana foi clara: desenvolver uma arquitetura capaz de **receber, 
 
 O projeto parte de um problema bem comum em sistemas modernos:
 
-- uma empresa precisa gerenciar pedidos de forma eficiente e escalavel
+- Uma empresa precisa gerenciar pedidos de forma eficiente e escalavel
 - esses pedidos podem chegar em **tempo real via API**
 - ou em **lotes de arquivos via Amazon S3**
 
 Para resolver isso, a semana foi estruturada em torno de uma arquitetura orientada a eventos, preparada para:
 
-- receber dados de multiplas fontes
-- validar e processar pedidos
-- desacoplar etapas com filas
-- publicar eventos para novos consumidores
-- permitir evolucao gradual do fluxo de negocio
+- Receber dados de multiplas fontes
+- Validar e processar pedidos
+- Desacoplar etapas com filas
+- Publicar eventos para novos consumidores
+- Permitir evolucao gradual do fluxo de negocio
 
 ## A arquitetura que vamos construir
 
@@ -38,13 +38,13 @@ Ao longo dos 4 dias, a trilha monta um sistema com estas caracteristicas centrai
 
 No fim da semana, a arquitetura combina:
 
-- entrada via **API REST**
-- ingestao de arquivos via **Amazon S3**
-- processamento assicrono com **Amazon SQS**
-- validacoes e regras de negocio com **AWS Lambda**
-- roteamento e barramento de eventos com **Amazon EventBridge**
-- notificacoes com **Amazon SNS**
-- persistencia e rastreabilidade com **Amazon DynamoDB**
+- Entrada via **API REST**
+- Ingestao de arquivos via **Amazon S3**
+- Processamento assicrono com **Amazon SQS**
+- Validacoes e regras de negocio com **AWS Lambda**
+- Roteamento e barramento de eventos com **Amazon EventBridge**
+- Notificacoes com **Amazon SNS**
+- Persistencia e rastreabilidade com **Amazon DynamoDB**
 
 ### Arquitetura completa da semana
 
@@ -54,13 +54,13 @@ No fim da semana, a arquitetura combina:
 
 Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
 
-- **ingestao multipla**
+- **Ingestao multipla**
   API REST para pedidos em tempo real e S3 para processamento em lote
-- **processamento assicrono**
+- **Processamento assicrono**
   SQS para desacoplamento e EventBridge como barramento de eventos
-- **pipeline de validacao**
+- **Pipeline de validacao**
   Lambdas especializadas para cada etapa do fluxo
-- **rastreabilidade**
+- **Rastreabilidade**
   acompanhamento do estado dos pedidos e dos arquivos processados
 
 ## Estrutura da semana

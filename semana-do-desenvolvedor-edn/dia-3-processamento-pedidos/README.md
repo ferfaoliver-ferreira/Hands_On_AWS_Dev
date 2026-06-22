@@ -8,11 +8,11 @@ Nos dois primeiros dias, o sistema foi preparado para receber pedidos de multipl
 
 Os principais ganhos praticos deste desenho sao:
 
-- **padronizacao do processamento** apos a validacao dos pedidos
-- **desacoplamento entre roteamento e persistencia**
-- **reaproveitamento dos eventos** publicados por API e S3
-- **buffer resiliente com SQS** antes da regra principal de negocio
-- **persistencia final em DynamoDB** com status e dados do pedido
+- **Padronizacao do processamento** apos a validacao dos pedidos
+- **Desacoplamento entre roteamento e persistencia**
+- **Reaproveitamento dos eventos** publicados por API e S3
+- **Buffer resiliente com SQS** antes da regra principal de negocio
+- **Persistencia final em DynamoDB** com status e dados do pedido
 
 ## Objetivo do laboratorio
 
@@ -297,7 +297,7 @@ Os principais conceitos reforcados foram:
 - **SQS como buffer entre evento e regra de negocio**
 - **Lambda para processamento central**
 - **DynamoDB como base principal dos pedidos**
-- **integracao de multiplas origens em um fluxo comum**
+- **Integracao de multiplas origens em um fluxo comum**
 
 ## Limpeza dos recursos
 

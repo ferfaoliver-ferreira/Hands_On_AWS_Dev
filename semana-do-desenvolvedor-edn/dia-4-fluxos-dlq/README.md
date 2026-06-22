@@ -1,4 +1,4 @@
-# Dia 4 - Persistencia, Fluxos Adicionais de Pedidos, DLQs e Lambda Layers
+# Dia 4 - Fluxos Adicionais de Pedidos e DLQs na AWS
 
 Este laboratorio documenta a etapa final da arquitetura, expandindo o sistema para lidar com **cancelamento de pedidos**, **alteracao de pedidos** e **teste pratico de DLQs**, usando **Amazon EventBridge**, **Amazon SQS Standard**, **AWS Lambda** e a **tabela principal no DynamoDB** criada no Dia 3. A aula tambem consolida a visao completa da arquitetura integrada ao longo da semana.
 
@@ -8,11 +8,11 @@ Sistemas reais nao tratam apenas criacao de pedidos. Em algum momento, pedidos p
 
 Os ganhos praticos dessa etapa sao:
 
-- **expansao funcional do ciclo de vida do pedido**
-- **reaproveitamento da arquitetura existente** com novas operacoes
-- **tratamento isolado por tipo de evento**
-- **uso pratico de DLQs** para resiliencia e diagnostico
-- **visao consolidada da arquitetura completa**
+- **Expansao funcional do ciclo de vida do pedido**
+- **Reaproveitamento da arquitetura existente** com novas operacoes
+- **Tratamento isolado por tipo de evento**
+- **Uso pratico de DLQs** para resiliencia e diagnostico
+- **Visao consolidada da arquitetura completa**
 
 ## Objetivo do laboratorio
 
@@ -366,11 +366,11 @@ Este laboratorio fecha a semana adicionando operacoes reais de ciclo de vida do 
 
 Os principais conceitos reforcados foram:
 
-- **novos tipos de eventos no EventBridge**
-- **filas e Lambdas especializadas por operacao**
-- **atualizacao incremental do estado no DynamoDB**
+- **Novos tipos de eventos no EventBridge**
+- **Filas e Lambdas especializadas por operacao**
+- **Atualizacao incremental do estado no DynamoDB**
 - **DLQs como mecanismo de seguranca operacional**
-- **visao integrada da arquitetura completa**
+- **Visao integrada da arquitetura completa**
 
 ## Limpeza dos recursos
 
