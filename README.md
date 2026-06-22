@@ -18,7 +18,6 @@ Cada subpasta representa um laboratorio completo ou uma trilha tematica dentro d
 
 | Laboratorio | Descricao | Servicos |
 | :--- | :--- | :--- |
-| [Semana do Desenvolvedor EDN](./semana-do-desenvolvedor-edn) | Trilha especial com os 4 dias da Semana do Desenvolvedor da Escola da Nuvem, centralizando os laboratorios em uma unica estrutura. | API Gateway, Lambda, SQS, EventBridge e outros servicos AWS |
 | [Serverless Guessing Game](./Serverless_Guessing_Game_AWS) | Jogo serverless com frontend estatico e backend desacoplado para praticar integracao e processamento via Lambda. | AWS Lambda, API Gateway, Amazon S3 |
 | [AWS Resilient Architecture](./AWS-resilient-architecture-sns-sqs) | Arquitetura desacoplada e resiliente com publicacao, assinaturas e filas para tolerancia a falhas. | Amazon SNS, Amazon SQS |
 | [Fan-Out para E-commerce](./AWS-fanout-sns-sqs-lambda-ecommerce) | Fluxo orientado a eventos para e-commerce com filtros, filas, Lambdas e DLQ. | Amazon SNS, Amazon SQS, AWS Lambda, IAM, CloudWatch Logs |
@@ -28,15 +27,6 @@ Cada subpasta representa um laboratorio completo ou uma trilha tematica dentro d
 | [AWS SSM Parameter Store e KMS](./AWS-ssm-parameter-store-kms-cli) | Protecao e uso de configuracoes sensiveis com Parameter Store e criptografia. | AWS Systems Manager, AWS KMS |
 | [AWS FinOps EC2 Automation](./AWS-finops-ec2-automation) | Automacao e boas praticas de custo em workloads com EC2. | Amazon EC2, automacao AWS |
 | [EC2 Console vs CLI](./02-ec2-console-vs-cli) | Comparacao pratica entre operacoes via console e linha de comando. | Amazon EC2, AWS CLI |
-
-## Destaque: Semana do Desenvolvedor EDN
-
-A pasta [semana-do-desenvolvedor-edn](./semana-do-desenvolvedor-edn) foi criada para agrupar os laboratorios da Semana do Desenvolvedor da Escola da Nuvem em um unico lugar. A ideia e manter os **4 dias** organizados dentro do repositorio central, com um padrao visual e textual consistente.
-
-Status atual da trilha:
-
-- Dia 1 documentado
-- Dias 2, 3 e 4 preparados para receber a documentacao
 
 ## Organizacao esperada dos projetos
 
