@@ -68,7 +68,7 @@ Ao concluir a trilha, a ideia e ter uma arquitetura completa com:
 | Dia | Pasta | Tema principal | Foco tecnico |
 | :--- | :--- | :--- | :--- |
 | Dia 1 | [dia-1-api-eventbridge](./dia-1-api-eventbridge) | Ingestao de pedidos via API e EventBridge | API Gateway, AWS Lambda, Amazon SQS FIFO, DLQ e Amazon EventBridge |
-| Dia 2 | [dia-2](./dia-2) | Ingestao de arquivos via S3 e rastreamento | Amazon S3, Amazon SQS Standard, AWS Lambda, Amazon DynamoDB e Amazon SNS |
+| Dia 2 | [dia-2-s3-integracao](./dia-2-s3-integracao) | Ingestao de arquivos via S3 e rastreamento | Amazon S3, Amazon SQS Standard, AWS Lambda, Amazon DynamoDB e Amazon SNS |
 | Dia 3 | [dia-3](./dia-3) | Processamento central de pedidos e persistencia | Amazon EventBridge, Amazon SQS, AWS Lambda e Amazon DynamoDB |
 | Dia 4 | [dia-4](./dia-4) | Fluxos adicionais de pedidos e DLQs | Regras de negocio, EventBridge, AWS Lambda, Amazon SQS e dead-letter queues |
 
