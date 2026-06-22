@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/deploy-edn-frontend.yml"
+      - ".github/workflows/**"
       - "semana-do-desenvolvedor-edn/site/**"
   workflow_dispatch:
 
